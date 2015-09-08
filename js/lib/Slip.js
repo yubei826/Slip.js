@@ -45,7 +45,7 @@
         var prefix = '', name = '', results = [];
         for (var i = 0, len = CSS_PREFIX_MAP.length; i < len; i++) {
             prefix = CSS_PREFIX_MAP[i];
-            name = prefix ? prefix + 'Transition' : 'trasition';
+            name = prefix ? prefix + 'Transition' : 'transition';
             results.push(ele.style[name] = css);
         }
         return results;
