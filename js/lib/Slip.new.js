@@ -76,9 +76,6 @@
             // 是否需要页面跟随手势移动
             this.isFollowTouch = params.isFollowTouch || false;
 
-            // 是不是被按下了，只有按下才允许移动
-            this._isPressed = false;
-
             /*
              * 默认的滑屏过渡时间，单位为ms
              * ```
@@ -86,6 +83,16 @@
              * Slip(ele, 'y').time(200);
              * */
             this.duration = params.duration || '400';
+
+            // 过场 class 名字
+            this.preClass = params.preClass || 'sta-pre';
+            this.inClass = params.inClass || 'sta-in';
+            this.nextClass = params.nextClass || 'sta-next';
+            this.oPre = params.oPreClass || 'o-pre';
+            this.oNext = params.oNextClass || 'o-next';
+
+            // 是不是被按下了，只有按下才允许移动
+            this._isPressed = false;
 
             /*
              * 开始的回调
@@ -380,6 +387,8 @@
                 isOut = true;
             }
 
+            this.changeClassName(page);
+
             /*
              * 这里做了个细节处理
              * 1. 当用户定义整页滑动的时长为400ms
@@ -419,6 +428,53 @@
             return this;
         };
 
+        // 获取指定元素的子元素
+        Slip.prototype.getChildEles = function(ele){
+            var elPages = [];
+            var elChilds = ele.childNodes;
+            var elChild = '';
+            for (var i = 0, len = elChilds.length; i < len; i++) {
+                elChild = elChilds[i];
+                if (elChild.nodeType == 1) {
+                    elPages.push(elChild);
+                }
+            }
+            return elPages;
+        };
+
+        // 改变过场className名字
+        Slip.prototype.changeClassName = function(page){
+            var direction = page - this.classPageNum || 0;
+            var ele = this.ele;
+            var childEles = this.getChildEles(ele);
+            for(var i = 0, len = childEles.length; i < len; i++){
+                childEles[i].className = childEles[i].className.replace(this.preClass, '').replace(this.inClass, '').replace(this.nextClass, '').replace(this.oPre, '').replace(this.oNext, '').replace('  ', '');
+                var childPre = childEles[page-1];
+                var childIn = childEles[page];
+                var childNext = childEles[page+1];
+                if(childPre){
+                    if(childPre.className.indexOf(this.preClass) == -1){
+                        childPre.className = childPre.className + ' ' + this.preClass;
+                    }
+                }
+                if(childIn.className.indexOf(this.inClass) == -1) {
+                    if(direction > 0){
+                        childIn.className = childIn.className + ' ' + this.inClass + ' ' + this.oNext;
+                    } else if(direction < 0){
+                        childIn.className = childIn.className + ' ' + this.inClass + ' ' + this.oPre;
+                    } else{
+                        childIn.className = childIn.className + ' ' + this.inClass;
+                    }
+                }
+                if(childNext){
+                    if(childNext.className.indexOf(this.nextClass) == -1) {
+                        childNext.className = childNext.className + ' ' + this.nextClass;
+                    }
+                }
+            }
+            this.classPageNum = page;
+        };
+
         /*
          * Slip(ele).slider()
          * 设置是个普通的轮播器
@@ -434,15 +490,7 @@
             if (typeof elPages == 'string') {
                 elPages = ele.querySelectorAll(elPages);
             } else if (!elPages) { // 传入为空
-                elPages = [];
-                var elChilds = ele.childNodes;
-                var elChild = '';
-                for (var i = 0, len = elChilds.length; i < len; i++) {
-                    elChild = elChilds[i];
-                    if (elChild.nodeType == 1) {
-                        elPages.push(elChild);
-                    }
-                }
+                elPages = this.getChildEles(ele);
             }
 
             this.isSlider = true;
@@ -601,6 +649,9 @@
             for (attr in initMove) {
                 ele.setAttribute(attr, initMove[attr]);
             }
+
+            // 设置过场 class
+            this.changeClassName(0);
 
             return this;
         };
