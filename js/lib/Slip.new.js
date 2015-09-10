@@ -11,6 +11,55 @@
         // 定义变量
         var UNDEFINED = undefined, NULL = null, X = 'x', Y = 'y', XY = 'xy', LEFT = 'left', RIGHT = 'right', UP = 'up', DOWN = 'down';
 
+        // 当前页标示
+        var stepHtml = function(position, color){
+            var position = position ? position : this.stepPosition;
+            var color = color ? color : this.stepColor;
+            var posi = '', posiLi = '';
+            if(position == RIGHT){
+                posi = 'top:25%; right:15px;';
+                posiLi = 'margin: 10px 0;';
+            }else if(position == DOWN) {
+                posi = 'left: 0; right:0; bottom: 10px;';
+                posiLi = 'display: inline-block; margin: 0 3px;';
+            }
+            var html = ''+
+                '<style type="text/css">' +
+                '.step-tar{position:absolute; '+ posi +' text-align:center;}'+
+                '.step-tar li{width:8px; height:8px; '+ posiLi +' background-color: '+ color +'; border-radius:50px; overflow:hidden; box-shadow:0 0 2px rgba(50,50,50,.5); -webkit-transition:background-color .2s 0s linear; transition:background-color .2s 0s linear;}'+
+                '.step-tar .sta-on{background-color:rgba(17,162,218,.95);}'+
+                '</style>';
+            return html;
+        };
+
+        // 下一页提示动画
+        var nextIcoNext = function(color){
+            var color = color ? color : this.nextIcoColor;
+            var html = ''+
+            '<style type="text/css">' +
+            '.next-ico{position:absolute; bottom:0; left:50%; width:26px; height:26px; margin-left:-10px; z-index:1; -webkit-transform:translate3d(0,0,0);}'+
+            '.next-ico i{content:"";border-top:2px solid '+ color +'; border-right:2px solid '+ color +';position:absolute; top:50%; left:50%; width:16px; height:16px; will-change:-webkit-transform,opacity; -webkit-transform:rotate(-45deg) translate(-50%, -50%); -webkit-animation:nextShow 1.5s 0s cubic-bezier(.51,.93,.85,1) infinite; transform:rotate(-45deg) translate(-50%, -50%); animation:nextShow 1.5s 0s cubic-bezier(.51,.93,.85,1) infinite;}'+
+            '@-webkit-keyframes nextShow{'+
+            '0%{opacity:0; top:10px;}'+
+            '35%{opacity:1;}'+
+            '70%{opacity:1;}'+
+            '100%{opacity:0; top:-10px;}}'+
+            '</style>'+
+            '<div class="next-ico"><i></i></div>';
+
+            return html;
+        };
+
+        // 横屏提示
+        var landscapeHtml = ''+
+            '<style type="text/css">'+
+            '.mod-tips-screen{position:absolute; height:100%;width:100%; z-index:999; background-color:#fff; text-align:center; font-size:1.6rem; color:#666; display:none;}'+
+            '.mod-tips-screen:before{content:""; width:64px; height:64px; margin-top:-50px; background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAllBMVEUAAAApKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSliYmL///8pKSk0NDTBwcGgoKBSUlL19fXj4+N4eHiQkJCwsLDb29uCgoJDQ0Nubm7Q0NAWnOr9AAAAInRSTlMABf3irHLRUvi/PCEQC++GRvQ0oBVnXijsybUuGZZ9j9n+51sY6AAACClJREFUeNrtWtlW2zAQlWR53/cldpx0KKVAKfz/zzUSCUqcCBsp0HN6et/qtJ3xzJ3lSkb/8R//AjAuVnUY+AHG6C8A17aZ02Gkrlkm6IuB/aSMaWs4JEoBDKMtA/RlCH3PXueukcIRLC9EX4GwXyXm2G1SmKDJq0+PAS58rxzpJnIIXIBVo08ExkFWxdQyohuQIMrQpyFY7ZLeGo0DcL8FCdJKUov6xs2hs4yd8e33bzvAFPe7xw8AztBf33i9LzaAH7e/vnE8wjG2h8c/ANrsusb3xeZwjr9auft+DwI39zwib36l9hWrrU7MYVfp5BDlnYlfD8fk//H47QR3AFBejQRF6RpRemzv6Zj8v2+/nQMABv9Kr5/FFgEJboTxU2wB3OtMBI9akcz43TcpvgOk5VVazvqy8acXmXWRgzW6AhILBE6LbdaB/KgT9KtCjQA5CIhimwUnQZuIRI40rrxV8OEEVBsQYL1vMV4AGvNtXWBxTK3OzAr8sQBQ8lbpy42LQjzUcewAA4naofI/4gKOI7nxeQe6fSeoaUMOM8pwTf8DLShuAOCbEu4BrD0JAs82c9dKgaPp7MVB6F1H2YFfO1NrLLq5Z8duBBzW4iAELig6wHNAKD55nWRNX5uqkdvBMg4MLALf1Ry4AWj76fZs580+CMWyMjQYB9UceALYnGe7NzevTDAXxWDlgg4Jojg8L2275UW5WRQDTDVIcAOku2AEZ5XLibBoa4xTdRI8A2wuL+cZBeCteh7VRp0EtwCNjSUzjqWB1gtI0Knn4CdAGl9OdMCz0Iz+/DQYYIc7NQ9+A3Fryf9bRowG5ryENFnneFQxz+VB46HL8Pmcs+a7sq1CAjGSif3uqkNoMUsCqtWNIZZZwKbBkjAbgnANqoXIBZKbIWkSeCXM8rBiuXpQc+CRFSKSoWQhiGYFVKI0DoRAMpEMWQdLBFRNNQoRAEYpzQK2qZH13FAKeCHeqnYCcD15hVmL2mHCuLJVJ0H5fnA3yWwhGkwPaBSifNaajIWXHQzCSbn8VHYgD94lOFlfYqG39sQ+aUZMkX8GCbz2Mkt723VM4ZenkYNHNnHen7W5P+19q9EBiAORA0uvG+fytX8kAF02LTuuIGgmnlCiRYIukDoQEzYRT0tjaIChsY/Iyh7dK48DS0qCYk0mm5lvdim8whQOeDwHGiTAsnk0TBzwcnHsHONrCSSHYjkJj6skrFrgysmxXAeGXoQg5yRQLsS2kI0j97gKfHNjuBvC9+XEOCEn3x3ulVWy4b3bB/rDHyLX9jrCTzYKCzbV8V9Uz8F3gGa6e+L+NSacXAeGWE1c48x4XVIK6pD4qDSppkruJ+R319yDhC2ch1nQsTsOmwA4JhvVEQxH1IlZZl7UBZJ/OgJaaD3Mmny6M1cdGMmaQM5Z+box0n6yPT0rC6QomUpeo8T7ccy5dji7stnYYYoWJ9bJEPFcPYE00eIjSfNwZ25PgcJO9r+X/KqDZ709aRCFEEhKKnmy9pgRWLus8AzYyI+N8pWl/QCHPRoPm3U/FUjflQWS4U0kL2/1MbDs+NSxPJFpslcShX8SNdtQ38t+CYEk5HkaBz5lDtDWodmeAmuH1UAoWaH1BFIwOQInXUkZ44jTxP5xsTkVvrxCg9ZxFV2hSUCbjQPiqEY40CQSgQTqAumWacDzKcSR2+Fxu5H37aTREkjEPFuFOE7UcZAzubqS7PAd0RNIJ9TCJZ/7aXdijbOyrWXLi6MukG6ONz8xhqKxn+jldyKAeZfcqpOgOsuBVRXTKDNSep8jkJz9cBVigyZ4GmUK7ywPvSYJaDg5rbwQ6pHxQuZAsI7UC/FmelQyfXnRCaXX7jjhOVAnQYlmUTZick6gL5CcYdY+n89ElMYEoeY4cEM0h5rycSy9RG0YCdQFUobmgE2Q3/vzLWkHDRLg+RxEYk0+R6EpkPIALTgW5ZNTglzr4BqsfsEdEcuBlIaiE6gJpAzNggkT+ZFGoieQonK+Dnp+T+f6kl+pJgkW5MBzyc7VNZZcJYO6St7Of94ljsQ2kn5cRloH12my8KZQ6mvSagkkIkggB+Yy0IkvpsvPtQ6uSe6jeQSch02cXcqCqbGc34vjqrluRFg3aCssaZWKKvmFC8El8CjhPKjC859avYnIy2seWR5xzTJ6ZyQYNUQqkyE1WoTVwD1wzr73wDo3SE/iVHQW9WAAQzNUp2T0IiWBJE4q0ELUppsCh1vVBRbPXT0SjBgtBF6NEXBE3Wj74f4fFmOqfpUrbogWIajaVxdIanRmfRBIjbpAehAkWBiEijrAIT5Mqw3N+3z0IazKwSKMCAl+28uIsgNblgOMPobejvN8yERi4khRJf+855yuFT6jDk9UMsvB7w8av7vdAgef9ArQEkgnX/+mg64D+EMC6eXpBk5AaIg0sZgEvx5+wxnaDCNN2NYClfzy8AMuwRmRNnyRA3nYZWg9pA2cv+PAz9stYVXyfNmHxkRXwNqRjIO7W570Z764X0oBkX/urU+Cx2dhnFPwzHra0EzXtjjOg/NKF/3p3AFCDGomvUoFyAXSOeXujtJxTAKDru3MD9C1wM9ZnzjlTjP9FpEjDhpdXNqrc+P6H5w/nVfbDxb6260w7ubrKtMzLhFIMjy/dRyj7YYyC9FnAJvwLpzGsPIZ43pIDAISkDRixoMQo09EUFqSd9/kZlL3IfpsFHF0/u4WNW3PD9GXgF+zCzgWHUu7xujLECauc9hxNrtis1cYfTGSvLU2kWF1Y1WjvwG88jJzMLNix/f/+I9/AX8A6mS/wCwk9PgAAAAASUVORK5CYII=) no-repeat center center; background-size:contain;}'+
+            '.mod-tips-screen:before,.mod-tips-screen p{position:absolute; top:50%; left:50%; -webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);}'+
+            '@media all and (orientation : landscape) {.mod-tips-screen{display:block;}}' +
+            '</style>'
+            +'<div class="mod-tips-screen"><p>手机竖屏体验效果更佳 : )</p></div>';
+
         // 从一串包含数字的字符串中提取数字 用于在css值中提取偏移值
         // transform: translate(-270px, 180px, 0);
         var NUMBER_REG = /\-?[0-9]+\.?[0-9]*/g;
@@ -29,6 +78,11 @@
 
         // 空函数 作为默认的回调函数
         var noop = function () { };
+
+        // 在指定位置插入 html
+        var innerHtml = function(ele, html){
+            ele.insertAdjacentHTML('beforeEnd', html);
+        };
 
         // 获取事件触发距离 处理一堆兼容
         var getCoordinatesArray = [
@@ -61,6 +115,7 @@
             // 滑动方向 X || Y || XY
             this.direction = params.direction || Y;
 
+
             // 滑动方向中最小允许距离 小于这个值不触发滑动
             this.min_dis = params.min_dis || 40;
 
@@ -70,7 +125,19 @@
             // CSS的前缀
             this.css_prefix = params.css_prefix || ['webkit', 'moz', 'ms', 'o', ''];
 
-            // 是否滑动
+            // 是否显示翻页标示
+            this.isShowStep = params.isShowStep || true;
+            this.stepPosition = params.stepPosition || RIGHT;
+            this.stepColor = params.stepColor || 'rgba(133,133,133,.9)';
+
+            // 是否显示下一页动画
+            this.isShowNext = params.isShowNext || true;
+            this.nextIcoColor = params.nextIcoColor || '#53c0f6';
+
+            // 是否显示横屏提示
+            this.isLandscape = params.isLandscape || true;
+
+            // 是否允许滑动
             this.isSlider = params.isSlider || true;
 
             // 是否需要页面跟随手势移动
@@ -387,7 +454,17 @@
                 isOut = true;
             }
 
+            // 切换动画样式
             this.changeClassName(page);
+
+            // 切换步骤
+            if(this.isShowStep){
+                var childStep = this.getChildEles(DOC.getElementById('step-tar'));
+                for(var i = 0, len = childStep.length; i < len; i++){
+                    childStep[i].className = '';
+                }
+                childStep[page].className = 'sta-on';
+            }
 
             /*
              * 这里做了个细节处理
@@ -493,7 +570,7 @@
                 elPages = this.getChildEles(ele);
             }
 
-            this.isSlider = true;
+            //this.isSlider = true;
             this.page = 0;
             this.elPages = elPages;
             var elPagesLen = elPages.length;
@@ -534,6 +611,27 @@
                 this.width(WINDOW_WIDTH);
             }
 
+            // 是否显示翻页标示
+            if(this.isShowStep){
+                var html = stepHtml.apply(this, []) + '<ul id="step-tar" class="step-tar">';
+                for(var i = 0, len = pageNum; i < len; i++){
+                    html += '<li></li>';
+                }
+                html += '</ul>';
+                innerHtml(DOC.getElementsByTagName('body')[0], html);
+                var childStep = this.getChildEles(DOC.getElementById('step-tar'));
+                childStep[0].className = 'sta-on';
+            }
+
+            // 设置横屏
+            if(this.isLandscape){
+                innerHtml(DOC.getElementsByTagName('body')[0], landscapeHtml);
+            }
+
+            // 是否显示下一页
+            if(this.isShowNext){
+                innerHtml(DOC.getElementsByTagName('body')[0], nextIcoNext.apply(this, []));
+            }
             return this;
         };
 
@@ -612,6 +710,16 @@
             return this;
         };
 
+        /*
+         * jump(page)
+         * 跳转到指定页
+         * */
+        Slip.prototype.jump = function (page) {
+            this.onSliderEnd(NULL, {
+                jumpPage: page
+            });
+            return this;
+        };
 
 
         // 初始化
