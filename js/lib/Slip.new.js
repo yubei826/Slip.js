@@ -15,8 +15,6 @@
         // transform: translate(-270px, 180px, 0);
         var NUMBER_REG = /\-?[0-9]+\.?[0-9]*/g;
 
-        var stateClass = ['sta-pre', 'sta-in', 'sta-next'];
-
         // 是不是触屏设备 如果是触屏设备使用`touch`事件，否则使用`mouse`事件
         var IsTouch = 'ontouchend' in WIN;
 
