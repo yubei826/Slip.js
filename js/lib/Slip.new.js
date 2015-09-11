@@ -51,8 +51,7 @@
         var landscapeHtml = ''+
             '<style type="text/css">'+
             '.mod-tips-screen{position:absolute; height:100%;width:100%; z-index:999; background-color:#fff; text-align:center; font-size:1.6rem; color:#666; display:none;}'+
-            '.mod-tips-screen:before{content:""; width:64px; height:64px; margin-top:-50px; background:url(data:image/png;base64,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) no-repeat center center; background-size:contain;}'+
-            '.mod-tips-screen:before,.mod-tips-screen p{position:absolute; top:50%; left:50%; -webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);}'+
+            '.mod-tips-screen p{position:absolute; top:50%; left:50%; -webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);}'+
             '@media all and (orientation : landscape) {.mod-tips-screen{display:block;}}' +
             '</style>'
             +'<div class="mod-tips-screen"><p>手机竖屏体验效果更佳 : )</p></div>';
@@ -105,6 +104,10 @@
         var getCoordinates = IsTouch ? getCoordinatesArray[0] : getCoordinatesArray[1];
 
         function Slip(ele, params){
+
+            if(!params){
+                params = {};
+            }
 
             // 节点元素
             this.ele = ele;
@@ -206,13 +209,14 @@
          * @parm ele: 原生的dom元素
          * @parm css: transition的值
          * */
-        Slip.prototype.setTransition = function(css){
+        Slip.prototype.setTransition = function(ele, css){
             var prefix = '', name = '';
             for(var i = 0, len = this.css_prefix.length; i < len; i++){
                 prefix = this.css_prefix[i];
                 name = prefix ? prefix + 'Transition' : 'transition';
-                this.ele.style[name] = css;
+                ele.style[name] = css;
             }
+            return this;
         };
 
         /*
@@ -220,25 +224,26 @@
          * @parm ele: 原生的DOM元素
          * @parm x|y|x: 偏移的x, y, z
          * */
-        Slip.prototype.setTranslate = function(x, y, z){
+        Slip.prototype.setTranslate = function(ele, x, y, z){
             var prefix ='', name = '';
             for(var i = 0, len = this.css_prefix.length; i < len; i++){
                 prefix = this.css_prefix[i];
                 name = prefix ? prefix + 'Transform' : 'transform';
-                this.ele.style[name] = 'translate3d(' + (x || 0) + 'px, ' + (y || 0) + 'px, ' + (z || 0) + 'px)';
+                ele.style[name] = 'translate3d(' + (x || 0) + 'px, ' + (y || 0) + 'px, ' + (z || 0) + 'px)';
             }
+            return this;
         };
 
         /*
          * 获取元素的translate值
          * @parm ele: 原生的DOM元素
          * */
-        Slip.prototype.getTranslate = function(){
+        Slip.prototype.getTranslate = function(ele){
             var prefix = '', name = '', css = '', coord = '', translate = [];
             for (var i = 0, len = this.css_prefix.length; i < len; i++) {
                 prefix = this.css_prefix[i];
                 name = prefix ? prefix + 'Transform' : 'transform';
-                css = this.ele.style[name];
+                css = ele.style[name];
                 if(css && typeof css == 'string'){
                     coord = css.match(/\((.*)\)/g)[0];
                     translate = coord && coord.match(NUMBER_REG);
@@ -252,6 +257,8 @@
                     z: translate[2] || 0
                 }
             }
+
+            return this;
         };
 
         /*
@@ -274,7 +281,7 @@
             };
 
             var ele = this.ele;
-            this.setTranslate(coords[X], coords[Y]);
+            this.setTranslate(ele, coords[X], coords[Y]);
             for (attr in coords) {
                 ele.setAttribute(attr, coords[attr]);
             }
@@ -360,7 +367,7 @@
             };
 
             if(this.isFollowTouch){
-                this.setTranslate(eleMove[X], eleMove[Y]);
+                this.setTranslate(ele, eleMove[X], eleMove[Y]);
             }
             for(attr in eleMove){
                 ele.setAttribute(attr, eleMove[attr]);
@@ -377,7 +384,7 @@
 
             // 结束后设置一次translate
             // 防止用户在自己定义的回调中改变了translate的值
-            var trans = this.getTranslate(this.ele);
+            var trans = this.getTranslate(ele);
             if (trans) {
                 this.setCoord(trans);
             }
@@ -388,7 +395,7 @@
 
 
         Slip.prototype.onSliderStart = function(event){
-            return this.setTransition(NULL);
+            return this.setTransition(this.ele, NULL);
         };
 
         // 当滑动结束时，针对轮播器做些特别处理
@@ -474,13 +481,13 @@
             if (isOut == true && !isJump) {
                 duration *= isVerticalWebapp ? absFinger[Y] / this.pageHeight : absFinger[X] / this.pageWidth;
             }
-            this.setTransition('all ' + duration + 'ms ease-in');
+            this.setTransition(ele, 'all ' + duration + 'ms ease-in');
             if (isVerticalWebapp) {
                 trans = '-' + (page * this.pageHeight);
-                this.setTranslate(0, trans, 0);
+                this.setTranslate(ele, 0, trans, 0);
             } else {
                 trans = '-' + (page * this.pageWidth);
-                this.setTranslate(trans, 0, 0);
+                this.setTranslate(ele, trans, 0, 0);
             }
             this.page = page;
             if (isJump) {
@@ -547,6 +554,8 @@
                 }
             }
             this.classPageNum = page;
+
+
         };
 
         /*
@@ -750,7 +759,7 @@
             // 初始化元素位移
             var initMove = this.coord = {'x': 0, 'y': 0};
             var direction = this.direction;
-            this.setTranslate(initMove[X], initMove[Y]);
+            this.setTranslate(ele, initMove[X], initMove[Y]);
             for (attr in initMove) {
                 ele.setAttribute(attr, initMove[attr]);
             }
@@ -770,7 +779,7 @@
         return instance.init();
     };
     if(typeof define == 'function'){
-        return define('',function(require, exports, module){
+        return define(function(require, exports, module){
             return entry;
         });
     }else{
