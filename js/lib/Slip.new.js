@@ -13,8 +13,6 @@
 
         // 当前页标示
         var stepHtml = function(position, color){
-            var position = position ? position : this.stepPosition;
-            var color = color ? color : this.stepColor;
             var posi = '', posiLi = '';
             if(position == RIGHT){
                 posi = 'top:25%; right:15px;';
@@ -34,7 +32,6 @@
 
         // 下一页提示动画
         var nextIcoNext = function(color){
-            var color = color ? color : this.nextIcoColor;
             var html = ''+
             '<style type="text/css">' +
             '.next-ico{position:absolute; bottom:0; left:50%; width:26px; height:26px; margin-left:-10px; z-index:1; -webkit-transform:translate3d(0,0,0);}'+
@@ -613,7 +610,7 @@
 
             // 是否显示翻页标示
             if(this.isShowStep){
-                var html = stepHtml.apply(this, []) + '<ul id="step-tar" class="step-tar">';
+                var html = stepHtml(this.stepPosition, this.stepColor) + '<ul id="step-tar" class="step-tar">';
                 for(var i = 0, len = pageNum; i < len; i++){
                     html += '<li></li>';
                 }
@@ -630,7 +627,7 @@
 
             // 是否显示下一页
             if(this.isShowNext){
-                innerHtml(DOC.getElementsByTagName('body')[0], nextIcoNext.apply(this, []));
+                innerHtml(DOC.getElementsByTagName('body')[0], nextIcoNext(this.nextIcoColor));
             }
             return this;
         };
