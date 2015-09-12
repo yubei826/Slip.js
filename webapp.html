@@ -2,35 +2,47 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="format-detection" content="telephone=no">
     <title>slip滑屏组件</title>
-    <meta name="description" content="slip滑屏组件" />
+    <meta name="description" content="slip滑屏组件"/>
     <style type="text/css">
-        body{
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
             background-color: #f2f4f5;
             margin: 0;
             padding: 0;
         }
-        img{
+
+        img {
             width: 100%;
         }
+
+        .page-1{background-color: #ff0000;}
+        .page-2{background-color: #ff1842;}
+        .page-3{background-color: #338bff;}
+        .page-4{background-color: #ff37e8;}
     </style>
     <script type="text/javascript" src="js/lib/Slip.new.js"></script>
 </head>
 <body>
-    <div id="container">
-        <div class="page page-1"><img src="img/sohutv-ios8/1.jpg"></div>
-        <div class="page page-2"><img src="img/sohutv-ios8/2.jpg"></div>
-        <div class="page page-3"><img src="img/sohutv-ios8/3.jpg"></div>
-        <div class="page page-4"><img src="img/sohutv-ios8/4.jpg"></div>
-    </div>
+<div id="container">
+    <div class="page page-1"></div>
+    <div class="page page-2"></div>
+    <div class="page page-3"></div>
+    <div class="page page-4"></div>
+</div>
 </body>
 <script type="text/javascript">
     var container = document.getElementById('container');
     var pages = document.querySelectorAll('.page');
-    var slip = Slip(container, 'y').webapp(pages);
+    var slip = Slip(container, 'y')/*.webapp(pages)*/;
 </script>
 </html>
