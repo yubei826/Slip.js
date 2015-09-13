@@ -33,16 +33,15 @@
     <script type="text/javascript" src="js/lib/Slip.new.js"></script>
 </head>
 <body>
-<div id="container">
-    <div class="page page-1"></div>
-    <div class="page page-2"></div>
-    <div class="page page-3"></div>
-    <div class="page page-4"></div>
-</div>
+    <div id="container">
+        <div class="page page-1"></div>
+        <div class="page page-2"></div>
+        <div class="page page-3"></div>
+        <div class="page page-4"></div>
+    </div>
+
+    <script type="text/javascript">
+        var slip = new Slip('#container');
+    </script>
 </body>
-<script type="text/javascript">
-    var container = document.getElementById('container');
-    var pages = document.querySelectorAll('.page');
-    var slip = Slip(container, 'y')/*.webapp(pages)*/;
-</script>
 </html>
