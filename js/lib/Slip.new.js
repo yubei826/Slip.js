@@ -12,13 +12,17 @@
      Slip
      ===========================*/
     var Slip = function(container, params){
-        // 如果不是用 new 实例化 Slip ，就返回一个 实例后的 Slip
+        // 如果不是用 new 实例化 Slip ，就返回一个实例后的 Slip
         if(!(this instanceof Slip)) return new Slip(container, params);
 
         // 默认配置参数
         var defaults = {
-            direction: 'horizontal',
-            wrapperClass: 'slip-wrapper'
+            direction: 'y',
+            wrapperClass: 'slip-wrapper',
+            min_dis: 40,
+            max_dis: 40,
+            css_prefix: ['webkit', 'moz', 'ms', 'o', ''],
+
 
         };
 
@@ -56,6 +60,9 @@
             if (!$) return;
         }
 
+        // Export it to Swiper instance
+        this.$ = $;
+
         /*=========================
          Preparation - Define Container, Wrapper and Pagination
          ===========================*/
@@ -69,7 +76,7 @@
         }
 
         // Wrapper
-        this.wrapper = this.container.children('.' + this.params.wrapperClass);
+
 
         this.init();
 
@@ -81,11 +88,9 @@
      ====================================================*/
     Slip.prototype = {
         init: function(){
-            
-        },
-        isH: function(){
-            return this.params.direction === 'horizontal';
-        },
+
+        }
+
 
     };
 
