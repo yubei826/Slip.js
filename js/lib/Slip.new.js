@@ -17,12 +17,36 @@
 
         // 默认配置参数
         var defaults = {
-            direction: 'y',
-            wrapperClass: 'slip-wrapper',
-            min_dis: 40,
-            max_dis: 40,
-            css_prefix: ['webkit', 'moz', 'ms', 'o', ''],
 
+            // Slides的滑动方向，可设置水平(horizontal)或垂直(vertical)
+            direction: 'vertical',
+
+            // 设定初始化时slide的索引
+            initialSlide: 0,
+
+            // 滑动速度，即slider自动滑动开始到结束的时间（单位ms）
+            speed: 300,
+
+            // wrapper class 名字
+            wrapperClass: 'slip-wrapper',
+
+            // 滑动方向中最小允许距离 小于这个值不触发滑动
+            min_dis: 40,
+
+            // 如果是单方向滑动 非滑动方向最大允许距离
+            max_dis: 40,
+
+            // 设置过度时间为 400ms
+            duration: '400',
+
+            // 是否允许上一页
+            allowSwipeToPrev: true,
+
+            // 是否允许下一页
+            allowSwipeToNext: true,
+
+            // 是否循环滚动
+            loop: false
 
         };
 
@@ -62,6 +86,9 @@
 
         // Export it to Swiper instance
         this.$ = $;
+
+        // 是否在执行动画
+        this.animating = false;
 
         /*=========================
          Preparation - Define Container, Wrapper and Pagination
