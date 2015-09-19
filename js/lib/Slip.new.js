@@ -28,25 +28,71 @@
             speed: 300,
 
             // wrapper class 名字
-            wrapperClass: 'slip-wrapper',
-
-            // 滑动方向中最小允许距离 小于这个值不触发滑动
-            min_dis: 40,
-
-            // 如果是单方向滑动 非滑动方向最大允许距离
-            max_dis: 40,
-
-            // 设置过度时间为 400ms
-            duration: '400',
-
-            // 是否允许上一页
-            allowSwipeToPrev: true,
-
-            // 是否允许下一页
-            allowSwipeToNext: true,
+            wrapperClass: 'slip-wrapper', // 设置wrapper的css类名
+            slideClass: 'slip-slide', // 设置slide的类名
+            slideActiveClass: 'slip-slide-active',    // 设置活动块的类名
+            slideVisibleClass: 'slip-slide-visible',  // 设置可视块的类名
+            bulletClass: 'slip-pagination-bullet',    // pagination分页器内元素的类名
+            bulletActiveClass: 'slip-pagination-bullet-active',   // pagination分页器内活动(active)元素的类名
+            slideDuplicateClass: 'slip-slide-duplicate',  // loop模式下被复制的slide的类名
+            slidePrevClass: 'slip-slide-prev',    // active slide的前一个slide的类名
+            slideNextClass: 'slip-slide-next',    // active slide的下一个slide的类名
+            paginationHiddenClass: 'slip-pagination-hidden',  // 分页器隐藏时的类名
+            buttonDisabledClass: 'slip-button-disabled',  // 前进后退按钮不可用时的类名
 
             // 是否循环滚动
-            loop: false
+            loop: false,
+
+            // 值为true时，slide无法拖动，只能使用扩展API函数例如slideNext() 或slidePrev()或slideTo()等改变slides滑动
+            onlyExternal: false,
+
+            // 如设置为false，拖动slide时它不会动，当你释放时slide才会切换
+            followFinger: false,
+
+            // 进行longSlip时触发slip所需要的最小拖动距离比例，即定义longSlip距离比例。值越大触发Slip所需距离越大。最大值0.5
+            longSlipRatio: 0.5,
+
+            // 拖动的临界值（单位为px），如果触摸距离小于该值滑块不会被拖动
+            threshold: 100,
+
+            // true时阻止touchmove冒泡事件
+            touchMoveStopPropagation: true,
+
+            // 边缘抵抗。当slip已经处于第一个或最后一个slide时，继续拖动Slip会离开边界，释放后弹回。边缘抵抗就是拖离边界时的抵抗力。值为false时禁用，将slide拖离边缘时完全没有抗力。可以通过resistanceRatio设定抵抗力大小
+            resistance: true,
+
+            // 抵抗率。边缘抵抗力的大小比例。值越小抵抗越大越难将slide拖离边缘，0时完全无法拖离
+            resistanceRatio: 0.85,
+
+            // 设为false可禁止向左或上滑动。作用类似mySlip.lockSwipeToPrev()
+            allowSwipeToPrev: true,
+
+            // 设为false可禁止向右或下滑动。作用类似mySlip.lockSwipeToNext()
+            allowSwipeToNext: true,
+            // CSS选择器或者HTML元素。你只能拖动它进行swiping
+            swipeHandler: null, //'.slip-handler',
+
+            // 设为true时，可以在slide上（或其他元素）增加类名'slip-no-sliping'，使该slide无法拖动，该类名可通过noSlipingClass修改
+            noSliping: true,
+
+            // 不可拖动块的类名，当noSliping设置为true时，并且在slide加上此类名，slide无法拖动
+            noSlipingClass: 'slip-no-sliping',
+
+            // Pagination
+            // 分页器容器的css选择器或HTML标签。分页器等组件可以置于container之外，不同Slip的组件应该有所区分，如#pagination1，#pagination2
+            pagination: null,
+
+            // 设定分页器指示器（小点）的HTML标签
+            paginationElement: 'span',
+
+            // 此参数设置为true时，点击分页器的指示点分页器会控制Slip切换
+            paginationClickable: false,
+
+            // true时点击Slip的container会显示/隐藏分页器
+            paginationHide: false,
+
+            // 渲染分页器小点。这个参数允许完全自定义分页器的指示点。接受指示点索引和指示点类名作为参数
+            paginationBulletRender: null
 
         };
 
@@ -84,7 +130,7 @@
             if (!$) return;
         }
 
-        // Export it to Swiper instance
+        // Export it to Slip instance
         this.$ = $;
 
         // 是否在执行动画
