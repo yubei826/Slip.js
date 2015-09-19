@@ -18,16 +18,241 @@
         // 默认配置参数
         var defaults = {
 
-            // Slides的滑动方向，可设置水平(horizontal)或垂直(vertical)
-            direction: 'vertical',
+            // Basic (Swiper一般选项)
+            initialSlide: 0,        // 设定初始化时slide的索引
+            direction: 'vertical',  // Slides的滑动方向，可设置水平(horizontal)或垂直(vertical)
+            speed: 300,             // 滑动速度，即slider自动滑动开始到结束的时间（单位ms）
+            autoplay: false,       //自动切换的时间间隔（单位ms），不设定该参数slide不会自动切换
+                                    // 用户操作后autoplay停止，参考基本选项 autoplayDisableOnInteraction
+            autoplayDisableOnInteraction: true, // 用户操作swiper之后，是否禁止autoplay。默认为true：停止
+                                                // 如果设置为false，用户操作swiper之后自动切换不会停止，每次都会重新启动autoplay。
+                                                // 操作包括触碰，拖动，点击pagination等。
+            grabCursor: false,      // 设置为true时，鼠标覆盖Swiper时指针会变成手掌形状，拖动时指针会变成抓手形状。（根据浏览器形状有所不同）
+            /*
+            * 如需要开启视差效果（相对父元素移动），设置为true并在所需要的元素上增加data-swiper-parallax属性。
+            *
+            *  自从3.03版本后Swiper为swiper和slide内元素增加视差效果。有两种表现形式：
+            *
+            *  1. 对于swiper-container的子元素，视差效果基于swiper的progress（0-1之间的小数，如有三个slide则是0->0.5->1）。
+            * 2. 对于slides的子元素，视差效果基于slide的progress（1，0，-1，当前slide向左是从0->1，向右是从0->-1）。
+            *
+            * data-swiper-parallax接受两种类型的参数。
+            * 1. number（单位：px），移动距离=number*progress。
+            * 2. percentage（百分比），移动距离=元素宽度*percentage*progress。
+            *
+            * 你还可以通过data-swiper-parallax-x 和 data-swiper-parallax-y单独设定其移动方向。
+            * 还可通过data-swiper-parallax-duration设定动画持续时间（可选），单位毫秒，默认值是Swiper的speed。
+            *
+            * 例：swiper内有5个slide，则swiper的progress是 0，0.25，0.5，0.75，1。
+            * swiper-container的子元素，设定了data-swiper-parallax=1000，当slide从0过渡到1时（初始向右滑动），该元素向右移动250px。
+            * slides的子元素，设定了data-swiper-parallax=1000，当slide从0过渡到1时（初始向右滑动），该元素相对于slide从0向右移动到250px处。nextslide内元素相对于slide从-250px向右移动0px处。
+            * */
+            parallax: false,
+            hashnav: false,         // 如需使用散列导航（有点像锚链接）将此参数设置为true。此外在每个slide处增加data-hash属性。这样当你的swiper切换时你的页面url就会加上这个属性的值了，你也可以通过进入页面时修改页面url让swiper在初始化时切换到指定的slide
+            setWrapperSize: false,  // Swiper从3.0开始使用flexbox布局(display: flex)，开启这个设定会在Wrapper上添加等于slides相加的宽高，在对flexbox布局的支持不是很好的浏览器中可能需要用到
+            virtualTranslate: false,// 虚拟位移。当你启用这个参数，Swiper除了不会移动外其他的都像平时一样运行，仅仅是不会在Wrapper上设置位移。当你想自定义一些slide切换效果时可以用，启用这个选项时onSlideChange和onTransition事件失效
+            roundLengths: false,    // 设定为true将slide的宽和高取整(四舍五入)以防止某些分辨率的屏幕上文字模糊
+            slidesOffsetBefore: 0,  // 设定slide与左边框的预设偏移量（单位px） // 属于 网格分布
+            slidesOffsetAfter: 0,   // 设定slide与右边框的预设偏移量（单位px） // 属于 网格分布
 
-            // 设定初始化时slide的索引
-            initialSlide: 0,
 
-            // 滑动速度，即slider自动滑动开始到结束的时间（单位ms）
-            speed: 300,
 
-            // wrapper class 名字
+            // Progress (进度)
+            /*
+            * 开启这个参数来计算每个slide的progress(进度)，Swiper的progress无需设置即开启。
+            *
+            * 对于slide的progress属性，活动的那个为0，其他的依次减1。例：如果一共有6个slide，活动的是第三个，从第一个到第六个的progress属性分别是：2、1、0、-1、-2、-3。
+            * 对于swiper的progress属性，活动的slide在最左（上）边时为0，活动的slide在最右（下）边时为1，其他情况平分。例：有6个slide，当活动的是第三个时swiper的progress属性是0.4，当活动的是第五个时swiper的progress属性是0.8。
+            *
+            * swiper的progress其实就是wrapper的translate值的百分值，与activeIndex等属性不同，progress是随着swiper的切换而不停的变化，而不是在某个时间点突变。
+            * */
+            watchSlidesProgress: false,
+            watchSlidesVisibility: false,   // 开启watchSlidesVisibility选项前需要先开启watchSlidesProgress，如果开启了watchSlidesVisibility，则会在每个可见slide增加一个classname，默认为'swiper-slide-visible'
+
+
+
+            // Free mode (free模式/抵抗反弹)
+            freeMode: false,                // 默认为false，普通模式：slide滑动时只滑动一格，并自动贴合wrapper，设置为true则变为free模式，slide会根据惯性滑动且不会贴合
+            freeModeMomentum: true,         // free模式动量。free模式下，若设置为false则关闭动量，释放slide之后立即停止不会滑动
+            freeModeMomentumRatio: 1,       // free模式动量值（移动惯量）。设置的值越大，当释放slide时的滑动距离越大
+            freeModeMomentumBounce: true,   // 动量反弹。false时禁用free模式下的动量反弹，slides通过惯性滑动到边缘时，无法反弹。注意与resistance（手动抵抗）区分
+            freeModeMomentumBounceRatio: 1, // 值越大产生的边界反弹效果越明显，反弹距离越大
+            freeModeSticky: false,          // 使得freeMode也能自动贴合
+
+
+
+            // Slides grid (网格分布)
+            centeredSlides: false,  // 设定为true时，活动块会居中，而不是默认状态下的居左
+            /*
+            * 设置slider容器能够同时显示的slides数量(carousel模式)。
+            * 可以设置为number或者 'auto'则自动根据slides的宽度来设定数量。
+            * loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
+            * */
+            slidesPerView: 1,
+            slidesPerGroup: 1,  // 在carousel mode下定义slides的数量多少为一组
+            spaceBetween: 0,    // slide之间的距离（单位px）
+            slidesPerColumn: 1, // 多行布局里面每列的slide数量
+            /*
+            * 多行布局中以什么形式填充：
+            * 'column'（列）
+            *  1	3	5
+            *  2	4	6
+            *  'row'（行）
+            *  1	2	3
+            *  4	5	6
+            * */
+            slidesPerColumnFill: 0,
+
+
+
+            // Effects (切换效果)
+            effect: 'slide',    // slide的切换效果，默认为"slide"（位移切换），可设置为"fade"（淡入）"cube"（方块）"coverflow"（3d流）
+            /*
+            * fade效果参数。可选参数：crossFade(3.03启用)。
+            * 默认：false。关闭淡出。过渡时，原slide透明度为1（不淡出），过渡中的slide透明度从0->1（淡入），其他slide透明度0。
+            * 可选值：true。开启淡出。过渡时，原slide透明度从1->0（淡出），过渡中的slide透明度从0->1（淡入），其他slide透明度0。
+            * */
+            fade: {
+                crossFade: false
+            },
+            // cube效果参数，可选值：
+            cube: {
+                slideShadows: true, // 开启slide阴影，默认 true
+                shadow: true,       // 开启投影，默认 true
+                shadowOffset: 20,   // 投影距离，默认 20，单位px
+                shadowScale: 0.94   // 投影缩放比例，默认0.94
+            },
+            // over flow是类似于苹果将多首歌曲的封面以3D界面的形式显示出来的方式。coverflow效果参数，可选值：
+            coverflow: {
+                rotate: 50,         // slide做3d旋转时Y轴的旋转角度，默认50
+                stretch: 0,         // 每个slide之间的拉伸值，越大slide靠得越紧，默认0
+                depth: 100,         // slide的位置深度，值越大z轴距离越远，看起来越小，默认100
+                modifier: 1,        // depth和rotate和stretch的倍率，相当于depth*modifier、rotate*modifier、stretch*modifier，值越大这三个参数的效果越明显，默认1
+                slideShadows : true // 开启slide阴影，默认 true
+            },
+
+
+
+            // Clicks (点击)
+            preventClicks: true,            // 默认为true，当swiping时阻止意外的链接点击
+            preventClicksPropagation: true, // 阻止click冒泡。拖动Swiper时阻止click事件
+            slideToClickedSlide: false,     // 设置为true则swiping时点击slide会过渡到这个slide
+
+
+
+            // Touches (触发条件)
+            touchRatio: 1,          // 触摸距离与slide滑动距离的比率
+            simulateTouch: true,    // 默认为true，Slip接受鼠标点击、拖动
+            onlyExternal: false,    // 值为true时，slide无法拖动，只能使用扩展API函数例如slideNext() 或slidePrev()或slideTo()等改变slides滑动
+            followFinger: true,     // 如设置为false，拖动slide时它不会动，当你释放时slide才会切换
+            shortSwipes: true,      // 设置为false时，进行快速短距离的拖动无法触发Swiper
+            longSwipesRatio: 0.5,   // 进行longSwipes时触发swiper所需要的最小拖动距离比例，即定义longSwipes距离比例。值越大触发Swiper所需距离越大。最大值0.5
+            threshold: 0,           // 拖动的临界值（单位为px），如果触摸距离小于该值滑块不会被拖动
+            touchAngle: 45,         // 允许触发拖动的角度值。默认45度，即使触摸方向不是完全水平也能拖动slide
+            longSwipes: true,       // 设置为false时，进行长时间长距离的拖动无法触发Swiper
+            touchMoveStopPropagation: true, // true时阻止touchmove冒泡事件
+            longSwipesMs: 300,      // 定义longSwipes的时间（单位ms），超过则属于longSwipes。
+            resistance: true,       // 边缘抵抗。当slip已经处于第一个或最后一个slide时，继续拖动Slip会离开边界，释放后弹回。边缘抵抗就是拖离边界时的抵抗力。值为false时禁用，将slide拖离边缘时完全没有抗力。可以通过resistanceRatio设定抵抗力大小
+            resistanceRatio: 0.85,  // 抵抗率。边缘抵抗力的大小比例。值越小抵抗越大越难将slide拖离边缘，0时完全无法拖离
+
+
+
+            // Swiping/no swiping (禁止切换)
+            noSwiping: true,        // 设为true时，可以在slide上（或其他元素）增加类名'swiper-no-swiping'，使该slide无法拖动，该类名可通过noSwipingClass修改
+            noSwipingClass: 'swiper-no-swiping',    // // 不可拖动块的类名，当noSwiping设置为true时，并且在slide加上此类名，slide无法拖动
+            allowSwipeToPrev: true, // 设为false可禁止向左或上滑动。作用类似mySwiper.lockSwipeToPrev()
+            allowSwipeToNext: true, // 设为false可禁止向左或下滑动。作用类似mySwiper.lockSwipeToNext()
+            swipeHandler: null,     // CSS选择器或者HTML元素。你只能拖动它进行swiping
+
+
+
+            // Pagination (分页器)
+            pagination: null,               // 分页器容器的css选择器或HTML标签。分页器等组件可以置于container之外，不同Slip的组件应该有所区分，如#pagination1，#pagination2
+            paginationClickable: false,     // 此参数设置为true时，点击分页器的指示点分页器会控制Slip切换
+            paginationBulletRender: null,   // 渲染分页器小点。这个参数允许完全自定义分页器的指示点。接受指示点索引和指示点类名作为参数
+            paginationHide: false,          // true时点击Slip的container会显示/隐藏分页器
+            paginationElement: 'span',      // 设定分页器指示器（小点）的HTML标签
+
+
+
+            // Next/prev buttons (前进后退按钮)
+            prevButton: null,   // 后退按钮的css选择器或HTML元素
+            nextButton: null,   // 前进按钮的css选择器或HTML元素
+
+
+
+            // Scrollbar (滚动条)
+            scrollbar: null,    // Scrollbar容器的css选择器或HTML元素
+            scrollbarHide: true,// 滚动条是否自动隐藏。默认：true会自动隐藏
+
+
+
+            // Keyboard Mousewheel (鼠标、键盘控制选项)
+            keyboardControl: false,         // 是否开启键盘控制Swiper切换。设置为true时，能使用键盘方向键控制slide滑动
+            mousewheelControl: false,       // 是否开启鼠标控制Swiper切换。设置为true时，能使用鼠标滚轮控制slide滑动
+            mousewheelForceToAxis: false,   // 当值为true让鼠标滚轮固定于轴向。当水平mode时的鼠标滚轮只有水平滚动才会起效，当垂直mode时的鼠标滚轮只有垂直滚动才会起效。普通家用鼠标只有垂直方向的滚动
+            mousewheelReleaseOnEdges: false,// 如果开启这个参数，当Swiper处于边缘位置时（第一个或最后一个slide），Swiper释放鼠标滚轮事件，鼠标可以控制页面滚动
+            mousewheelInvert: false,        // 这个参数会使鼠标滚轮控制方向反转
+            mousewheelSensitivity: 1,       // 鼠标滚轮的灵敏度，值越大鼠标滚轮滚动时swiper位移越大
+
+
+
+            // Images (图片选项)
+            preloadImages: true,        // 默认为true，Swiper会强制加载所有图片
+            updateOnImagesReady: true,  // 当所有的内嵌图像（img标签）加载完成后Swiper会重新初始化。使用此选项需要先开启preloadImages: true
+
+            // Lazy Loading (延时加载)
+            /*
+            * 设为true开启图片延迟加载，使preloadImages无效。
+            * 需要将图片img标签的src改写成data-src，并且增加类名swiper-lazy。
+            * 背景图的延迟加载则增加属性data-background（3.0.7开始启用）。
+            *
+            * 还可以为slide加一个预加载，<div class="swiper-lazy-preloader"></div>
+            * 或者白色的<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            *
+            * 当你设置了slidesPerView:'auto' 或者 slidesPerView > 1，还需要开启watchSlidesVisibility。
+            * */
+            lazyLoading: false,
+            lazyLoadingInPrevNext: false,       // 设置为true允许将延迟加载应用到最接近的slide的图片（前一个和后一个slide）
+            lazyLoadingOnTransitionStart: false,// 默认当过渡到slide后开始加载图片，如果你想在过渡一开始就加载，设置为true
+
+
+
+            // Loop (环路)
+            loop: false,        // 设置为true 则开启loop模式。loop模式：会在wrapper前后生成若干个slides让slides看起来是衔接的，用于无限循环切换。loop模式在与free模式同用时会产生抖动，因为free模式下没有复制slide的时间点
+            /*
+            * loop模式下会在slides前后复制若干个slide,，前后复制的个数不会大于原总个数。
+            * 默认为0，前后各复制1个。0,1,2 --> 2,0,1,2,0
+            * 例：取值为1，0,1,2 --> 1,2,0,1,2,0,1
+            * 例：取值为2或以上，0,1,2 --> 0,1,2,0,1,2,0,1,2
+            * */
+            loopAdditionalSlides: 0,
+            loopedSlides: null,     // 在loop模式下使用slidesPerview:'auto',还需使用该参数设置所要用到的loop个数
+
+
+
+            // Control (双向控制)
+            control: undefined,     // 设置为另外一个Swiper实例开始控制该Swiper
+            controlInverse: false,  // 设置为true时控制方向倒转
+            /*
+            * 设定Swiper相互控制时的控制方式。当两个swiper的slide数量不一致时可用。
+            *  默认为'slide'，自身切换一个slide时，被控制方也切换一个slide。
+            *  可选：'container'，按自身slide在container中的位置比例进行控制。
+            *  例：有4个slide的swiper1控制有7个slide的swiper2，
+            *  设定'slide',swiper1的1,2,3,4对应控制的swiper2为1,2,3,7。
+            *  设定controlBy:'container',swiper1的1,2,3,4对应控制的swiper2为1,3,5,7。
+            * */
+            controlBy: 'slide',
+
+
+
+            // Observer (监视器)
+            observer: false,        // 启动动态检查器，当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。默认false，不开启，可以使用update()方法更新
+            observeParents: false,  // 将observe应用于Swiper的父元素。当Swiper的父元素变化时，例如window.resize，Swiper更新
+
+
+
+            // wrapper class 名字 命名空间
             wrapperClass: 'slip-wrapper', // 设置wrapper的css类名
             slideClass: 'slip-slide', // 设置slide的类名
             slideActiveClass: 'slip-slide-active',    // 设置活动块的类名
@@ -38,61 +263,38 @@
             slidePrevClass: 'slip-slide-prev',    // active slide的前一个slide的类名
             slideNextClass: 'slip-slide-next',    // active slide的下一个slide的类名
             paginationHiddenClass: 'slip-pagination-hidden',  // 分页器隐藏时的类名
-            buttonDisabledClass: 'slip-button-disabled',  // 前进后退按钮不可用时的类名
+            buttonDisabledClass: 'slip-button-disabled'  // 前进后退按钮不可用时的类名
 
-            // 是否循环滚动
-            loop: false,
 
-            // 值为true时，slide无法拖动，只能使用扩展API函数例如slideNext() 或slidePrev()或slideTo()等改变slides滑动
-            onlyExternal: false,
 
-            // 如设置为false，拖动slide时它不会动，当你释放时slide才会切换
-            followFinger: false,
+            /*
+             Callbacks:
+             onInit: function (swiper)
+             onDestroy: function (swiper)
+             onClick: function (swiper, e)
+             onTap: function (swiper, e)
+             onDoubleTap: function (swiper, e)
+             onSliderMove: function (swiper, e)
+             onSlideChangeStart: function (swiper)
+             onSlideChangeEnd: function (swiper)
+             onTransitionStart: function (swiper)
+             onTransitionEnd: function (swiper)
+             onImagesReady: function (swiper)
+             onProgress: function (swiper, progress)
+             onTouchStart: function (swiper, e)
+             onTouchMove: function (swiper, e)
+             onTouchMoveOpposite: function (swiper, e)
+             onTouchEnd: function (swiper, e)
+             onReachBeginning: function (swiper)
+             onReachEnd: function (swiper)
+             onSetTransition: function (swiper, duration)
+             onSetTranslate: function (swiper, translate)
+             onAutoplayStart: function (swiper)
+             onAutoplayStop: function (swiper),
+             onLazyImageLoad: function (swiper, slide, image)
+             onLazyImageReady: function (swiper, slide, image)
+             */
 
-            // 进行longSlip时触发slip所需要的最小拖动距离比例，即定义longSlip距离比例。值越大触发Slip所需距离越大。最大值0.5
-            longSlipRatio: 0.5,
-
-            // 拖动的临界值（单位为px），如果触摸距离小于该值滑块不会被拖动
-            threshold: 100,
-
-            // true时阻止touchmove冒泡事件
-            touchMoveStopPropagation: true,
-
-            // 边缘抵抗。当slip已经处于第一个或最后一个slide时，继续拖动Slip会离开边界，释放后弹回。边缘抵抗就是拖离边界时的抵抗力。值为false时禁用，将slide拖离边缘时完全没有抗力。可以通过resistanceRatio设定抵抗力大小
-            resistance: true,
-
-            // 抵抗率。边缘抵抗力的大小比例。值越小抵抗越大越难将slide拖离边缘，0时完全无法拖离
-            resistanceRatio: 0.85,
-
-            // 设为false可禁止向左或上滑动。作用类似mySlip.lockSwipeToPrev()
-            allowSwipeToPrev: true,
-
-            // 设为false可禁止向右或下滑动。作用类似mySlip.lockSwipeToNext()
-            allowSwipeToNext: true,
-            // CSS选择器或者HTML元素。你只能拖动它进行swiping
-            swipeHandler: null, //'.slip-handler',
-
-            // 设为true时，可以在slide上（或其他元素）增加类名'slip-no-sliping'，使该slide无法拖动，该类名可通过noSlipingClass修改
-            noSliping: true,
-
-            // 不可拖动块的类名，当noSliping设置为true时，并且在slide加上此类名，slide无法拖动
-            noSlipingClass: 'slip-no-sliping',
-
-            // Pagination
-            // 分页器容器的css选择器或HTML标签。分页器等组件可以置于container之外，不同Slip的组件应该有所区分，如#pagination1，#pagination2
-            pagination: null,
-
-            // 设定分页器指示器（小点）的HTML标签
-            paginationElement: 'span',
-
-            // 此参数设置为true时，点击分页器的指示点分页器会控制Slip切换
-            paginationClickable: false,
-
-            // true时点击Slip的container会显示/隐藏分页器
-            paginationHide: false,
-
-            // 渲染分页器小点。这个参数允许完全自定义分页器的指示点。接受指示点索引和指示点类名作为参数
-            paginationBulletRender: null
 
         };
 
@@ -109,11 +311,14 @@
             }
         }
 
-        // Version
+        // 版本
         this.version = '0.0.1';
 
-        // Params
+        // 参数
         this.params = params;
+
+        // Classname
+        this.classNames = [];
 
         /*=========================
          Dom Library and plugins
@@ -133,9 +338,6 @@
         // Export it to Slip instance
         this.$ = $;
 
-        // 是否在执行动画
-        this.animating = false;
-
         /*=========================
          Preparation - Define Container, Wrapper and Pagination
          ===========================*/
@@ -148,8 +350,29 @@
             return;
         }
 
-        // Wrapper
+        // 保存 container HTML元素和数据
+        this.container[0].slip = this;
+        this.container.data('slip', this);
 
+        this.classNames.push('slip-container-' + this.params.direction);
+
+        this.wrapper = this.container.children('.' + this.params.wrapperClass);
+
+        // 分屏器
+        if(this.params.pagination){
+            this.paginationContainer = $(this.params.pagination);
+            if(this.paginationClickable){
+                this.paginationContainer.addClass('slip-pagination-clickable');
+            }
+        }
+
+        // 判断是否是安卓设备
+        if(this.device.android){
+            this.classNames.push('slip-container-android');
+        }
+
+        // 添加样式
+        this.container.addClass(this.classNames.join(' '));
 
         this.init();
 
@@ -162,7 +385,47 @@
     Slip.prototype = {
         init: function(){
 
-        }
+        },
+
+        // 是否水平滑动
+        isH: function(){
+            return this.params.direction === 'horizontal';
+        },
+
+        // 上下页的锁和解锁
+        lockSwipeToPrev: function () {
+            this.params.allowSlipToPrev = false;
+        },
+        lockSlipToNext: function(){
+            this.params.allowSlipToNext = false;
+        },
+        lockSlip: function(){
+            this.params.allowSlipToPrev = this.params.allowSlipToNext = false;
+        },
+        unlockSwipeToPrev: function () {
+            this.params.allowSwipeToPrev = true;
+        },
+        unlockSwipeToNext: function () {
+            this.params.allowSwipeToNext = true;
+        },
+        unlockSwipes: function () {
+            this.params.allowSwipeToPrev = this.params.allowSwipeToNext = true;
+        },
+
+
+
+
+        device: (function(){
+            var ua = navigator.userAgent;
+            var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+            var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+            var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+            var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+            return{
+                ios: ipad || iphone || ipod,
+                android: android
+            }
+        })()
 
 
     };
