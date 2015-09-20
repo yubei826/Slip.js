@@ -14,34 +14,50 @@
             margin: 0;
             padding: 0;
         }
-
-        body {
-            background-color: #f2f4f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        img {
+        html, body{
             width: 100%;
+            height: 100%;
         }
-
-        .page-1{background-color: #ff0000;}
-        .page-2{background-color: #ff1842;}
-        .page-3{background-color: #338bff;}
-        .page-4{background-color: #ff37e8;}
+        .slip-container{
+            height: 100%;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-align: center;
+            font-size: 50px;
+            line-height: 1000%;
+        }
+        .slip-wrapper{
+            width: 100%;
+            height: 100%;;
+        }
+        .slip-slide{
+            height: 100%;
+        }
+        .blue-slide{
+            background-color: #4390EE;
+        }
+        .red-slide{
+            background-color: #CA4040;
+        }
+        .orange-slide{
+            background-color: #FF8604;
+        }
     </style>
     <script type="text/javascript" src="js/lib/Slip.new.js"></script>
 </head>
 <body>
-    <div id="container">
-        <div class="page page-1"></div>
-        <div class="page page-2"></div>
-        <div class="page page-3"></div>
-        <div class="page page-4"></div>
+    <div class="slip-container">
+        <div class="slip-wrapper">
+            <div class="slip-slide blue-slide">slider1</div>
+            <div class="slip-slide red-slide">slider2</div>
+            <div class="slip-slide orange-slide">slider3</div>
+        </div>
     </div>
 
     <script type="text/javascript">
-        var slip = new Slip('#container');
+        var slip = new Slip('.slip-container');
     </script>
 </body>
 </html>
