@@ -18,39 +18,39 @@
         // 默认配置参数
         var defaults = {
 
-            // Basic (Swiper一般选项)
+            // Basic (Slip一般选项)
             initialSlide: 0,        // 设定初始化时slide的索引
             direction: 'vertical',  // Slides的滑动方向，可设置水平(horizontal)或垂直(vertical)
             speed: 300,             // 滑动速度，即slider自动滑动开始到结束的时间（单位ms）
             autoplay: false,       //自动切换的时间间隔（单位ms），不设定该参数slide不会自动切换
                                     // 用户操作后autoplay停止，参考基本选项 autoplayDisableOnInteraction
-            autoplayDisableOnInteraction: true, // 用户操作swiper之后，是否禁止autoplay。默认为true：停止
-                                                // 如果设置为false，用户操作swiper之后自动切换不会停止，每次都会重新启动autoplay。
+            autoplayDisableOnInteraction: true, // 用户操作slip之后，是否禁止autoplay。默认为true：停止
+                                                // 如果设置为false，用户操作slipr之后自动切换不会停止，每次都会重新启动autoplay。
                                                 // 操作包括触碰，拖动，点击pagination等。
-            grabCursor: false,      // 设置为true时，鼠标覆盖Swiper时指针会变成手掌形状，拖动时指针会变成抓手形状。（根据浏览器形状有所不同）
+            grabCursor: false,      // 设置为true时，鼠标覆盖Slip时指针会变成手掌形状，拖动时指针会变成抓手形状。（根据浏览器形状有所不同）
             /*
-            * 如需要开启视差效果（相对父元素移动），设置为true并在所需要的元素上增加data-swiper-parallax属性。
+            * 如需要开启视差效果（相对父元素移动），设置为true并在所需要的元素上增加data-slip-parallax属性。
             *
-            *  自从3.03版本后Swiper为swiper和slide内元素增加视差效果。有两种表现形式：
+            *  自从3.03版本后Slip为slip和slide内元素增加视差效果。有两种表现形式：
             *
-            *  1. 对于swiper-container的子元素，视差效果基于swiper的progress（0-1之间的小数，如有三个slide则是0->0.5->1）。
+            *  1. 对于slip-container的子元素，视差效果基于slip的progress（0-1之间的小数，如有三个slide则是0->0.5->1）。
             * 2. 对于slides的子元素，视差效果基于slide的progress（1，0，-1，当前slide向左是从0->1，向右是从0->-1）。
             *
-            * data-swiper-parallax接受两种类型的参数。
+            * data-slip-parallax接受两种类型的参数。
             * 1. number（单位：px），移动距离=number*progress。
             * 2. percentage（百分比），移动距离=元素宽度*percentage*progress。
             *
-            * 你还可以通过data-swiper-parallax-x 和 data-swiper-parallax-y单独设定其移动方向。
-            * 还可通过data-swiper-parallax-duration设定动画持续时间（可选），单位毫秒，默认值是Swiper的speed。
+            * 你还可以通过data-slip-parallax-x 和 data-slip-parallax-y单独设定其移动方向。
+            * 还可通过data-slip-parallax-duration设定动画持续时间（可选），单位毫秒，默认值是Slip的speed。
             *
-            * 例：swiper内有5个slide，则swiper的progress是 0，0.25，0.5，0.75，1。
-            * swiper-container的子元素，设定了data-swiper-parallax=1000，当slide从0过渡到1时（初始向右滑动），该元素向右移动250px。
-            * slides的子元素，设定了data-swiper-parallax=1000，当slide从0过渡到1时（初始向右滑动），该元素相对于slide从0向右移动到250px处。nextslide内元素相对于slide从-250px向右移动0px处。
+            * 例：slip内有5个slide，则slip的progress是 0，0.25，0.5，0.75，1。
+            * slip-container的子元素，设定了data-slip-parallax=1000，当slide从0过渡到1时（初始向右滑动），该元素向右移动250px。
+            * slides的子元素，设定了data-slip-parallax=1000，当slide从0过渡到1时（初始向右滑动），该元素相对于slide从0向右移动到250px处。nextslide内元素相对于slide从-250px向右移动0px处。
             * */
             parallax: false,
-            hashnav: false,         // 如需使用散列导航（有点像锚链接）将此参数设置为true。此外在每个slide处增加data-hash属性。这样当你的swiper切换时你的页面url就会加上这个属性的值了，你也可以通过进入页面时修改页面url让swiper在初始化时切换到指定的slide
-            setWrapperSize: false,  // Swiper从3.0开始使用flexbox布局(display: flex)，开启这个设定会在Wrapper上添加等于slides相加的宽高，在对flexbox布局的支持不是很好的浏览器中可能需要用到
-            virtualTranslate: false,// 虚拟位移。当你启用这个参数，Swiper除了不会移动外其他的都像平时一样运行，仅仅是不会在Wrapper上设置位移。当你想自定义一些slide切换效果时可以用，启用这个选项时onSlideChange和onTransition事件失效
+            hashnav: false,         // 如需使用散列导航（有点像锚链接）将此参数设置为true。此外在每个slide处增加data-hash属性。这样当你的slip切换时你的页面url就会加上这个属性的值了，你也可以通过进入页面时修改页面url让slip在初始化时切换到指定的slide
+            setWrapperSize: false,  // Slip从3.0开始使用flexbox布局(display: flex)，开启这个设定会在Wrapper上添加等于slides相加的宽高，在对flexbox布局的支持不是很好的浏览器中可能需要用到
+            virtualTranslate: false,// 虚拟位移。当你启用这个参数，Slip除了不会移动外其他的都像平时一样运行，仅仅是不会在Wrapper上设置位移。当你想自定义一些slide切换效果时可以用，启用这个选项时onSlideChange和onTransition事件失效
             roundLengths: false,    // 设定为true将slide的宽和高取整(四舍五入)以防止某些分辨率的屏幕上文字模糊
             slidesOffsetBefore: 0,  // 设定slide与左边框的预设偏移量（单位px） // 属于 网格分布
             slidesOffsetAfter: 0,   // 设定slide与右边框的预设偏移量（单位px） // 属于 网格分布
@@ -59,15 +59,15 @@
 
             // Progress (进度)
             /*
-            * 开启这个参数来计算每个slide的progress(进度)，Swiper的progress无需设置即开启。
+            * 开启这个参数来计算每个slide的progress(进度)，Slip的progress无需设置即开启。
             *
             * 对于slide的progress属性，活动的那个为0，其他的依次减1。例：如果一共有6个slide，活动的是第三个，从第一个到第六个的progress属性分别是：2、1、0、-1、-2、-3。
-            * 对于swiper的progress属性，活动的slide在最左（上）边时为0，活动的slide在最右（下）边时为1，其他情况平分。例：有6个slide，当活动的是第三个时swiper的progress属性是0.4，当活动的是第五个时swiper的progress属性是0.8。
+            * 对于slip的progress属性，活动的slide在最左（上）边时为0，活动的slide在最右（下）边时为1，其他情况平分。例：有6个slide，当活动的是第三个时slip的progress属性是0.4，当活动的是第五个时slip的progress属性是0.8。
             *
-            * swiper的progress其实就是wrapper的translate值的百分值，与activeIndex等属性不同，progress是随着swiper的切换而不停的变化，而不是在某个时间点突变。
+            * slip的progress其实就是wrapper的translate值的百分值，与activeIndex等属性不同，progress是随着slip的切换而不停的变化，而不是在某个时间点突变。
             * */
             watchSlidesProgress: false,
-            watchSlidesVisibility: false,   // 开启watchSlidesVisibility选项前需要先开启watchSlidesProgress，如果开启了watchSlidesVisibility，则会在每个可见slide增加一个classname，默认为'swiper-slide-visible'
+            watchSlidesVisibility: false,   // 开启watchSlidesVisibility选项前需要先开启watchSlidesProgress，如果开启了watchSlidesVisibility，则会在每个可见slide增加一个classname，默认为'slip-slide-visible'
 
 
 
@@ -134,9 +134,9 @@
 
 
             // Clicks (点击)
-            preventClicks: true,            // 默认为true，当swiping时阻止意外的链接点击
-            preventClicksPropagation: true, // 阻止click冒泡。拖动Swiper时阻止click事件
-            slideToClickedSlide: false,     // 设置为true则swiping时点击slide会过渡到这个slide
+            preventClicks: true,            // 默认为true，当sliping时阻止意外的链接点击
+            preventClicksPropagation: true, // 阻止click冒泡。拖动Slip时阻止click事件
+            slideToClickedSlide: false,     // 设置为true则sliping时点击slide会过渡到这个slide
 
 
 
@@ -145,11 +145,11 @@
             simulateTouch: true,    // 默认为true，Slip接受鼠标点击、拖动
             onlyExternal: false,    // 值为true时，slide无法拖动，只能使用扩展API函数例如slideNext() 或slidePrev()或slideTo()等改变slides滑动
             followFinger: true,     // 如设置为false，拖动slide时它不会动，当你释放时slide才会切换
-            shortSwipes: true,      // 设置为false时，进行快速短距离的拖动无法触发Swiper
-            longSwipesRatio: 0.5,   // 进行longSwipes时触发swiper所需要的最小拖动距离比例，即定义longSwipes距离比例。值越大触发Swiper所需距离越大。最大值0.5
+            shortSwipes: true,      // 设置为false时，进行快速短距离的拖动无法触发Slip
+            longSwipesRatio: 0.5,   // 进行longSwipes时触发slip所需要的最小拖动距离比例，即定义longSwipes距离比例。值越大触发Slip所需距离越大。最大值0.5
             threshold: 0,           // 拖动的临界值（单位为px），如果触摸距离小于该值滑块不会被拖动
             touchAngle: 45,         // 允许触发拖动的角度值。默认45度，即使触摸方向不是完全水平也能拖动slide
-            longSwipes: true,       // 设置为false时，进行长时间长距离的拖动无法触发Swiper
+            longSwipes: true,       // 设置为false时，进行长时间长距离的拖动无法触发Slip
             touchMoveStopPropagation: true, // true时阻止touchmove冒泡事件
             longSwipesMs: 300,      // 定义longSwipes的时间（单位ms），超过则属于longSwipes。
             resistance: true,       // 边缘抵抗。当slip已经处于第一个或最后一个slide时，继续拖动Slip会离开边界，释放后弹回。边缘抵抗就是拖离边界时的抵抗力。值为false时禁用，将slide拖离边缘时完全没有抗力。可以通过resistanceRatio设定抵抗力大小
@@ -157,12 +157,12 @@
 
 
 
-            // Swiping/no swiping (禁止切换)
-            noSwiping: true,        // 设为true时，可以在slide上（或其他元素）增加类名'swiper-no-swiping'，使该slide无法拖动，该类名可通过noSwipingClass修改
-            noSwipingClass: 'swiper-no-swiping',    // // 不可拖动块的类名，当noSwiping设置为true时，并且在slide加上此类名，slide无法拖动
-            allowSwipeToPrev: true, // 设为false可禁止向左或上滑动。作用类似mySwiper.lockSwipeToPrev()
-            allowSwipeToNext: true, // 设为false可禁止向左或下滑动。作用类似mySwiper.lockSwipeToNext()
-            swipeHandler: null,     // CSS选择器或者HTML元素。你只能拖动它进行swiping
+            // Swiping/no sliping (禁止切换)
+            noSwiping: true,        // 设为true时，可以在slide上（或其他元素）增加类名'slip-no-sliping'，使该slide无法拖动，该类名可通过noSwipingClass修改
+            noSwipingClass: 'slip-no-sliping',    // // 不可拖动块的类名，当noSwiping设置为true时，并且在slide加上此类名，slide无法拖动
+            allowSwipeToPrev: true, // 设为false可禁止向左或上滑动。作用类似mySlip.lockSwipeToPrev()
+            allowSwipeToNext: true, // 设为false可禁止向左或下滑动。作用类似mySlip.lockSwipeToNext()
+            slipHandler: null,     // CSS选择器或者HTML元素。你只能拖动它进行sliping
 
 
 
@@ -188,27 +188,27 @@
 
 
             // Keyboard Mousewheel (鼠标、键盘控制选项)
-            keyboardControl: false,         // 是否开启键盘控制Swiper切换。设置为true时，能使用键盘方向键控制slide滑动
-            mousewheelControl: false,       // 是否开启鼠标控制Swiper切换。设置为true时，能使用鼠标滚轮控制slide滑动
+            keyboardControl: false,         // 是否开启键盘控制Slip切换。设置为true时，能使用键盘方向键控制slide滑动
+            mousewheelControl: false,       // 是否开启鼠标控制Slip切换。设置为true时，能使用鼠标滚轮控制slide滑动
             mousewheelForceToAxis: false,   // 当值为true让鼠标滚轮固定于轴向。当水平mode时的鼠标滚轮只有水平滚动才会起效，当垂直mode时的鼠标滚轮只有垂直滚动才会起效。普通家用鼠标只有垂直方向的滚动
-            mousewheelReleaseOnEdges: false,// 如果开启这个参数，当Swiper处于边缘位置时（第一个或最后一个slide），Swiper释放鼠标滚轮事件，鼠标可以控制页面滚动
+            mousewheelReleaseOnEdges: false,// 如果开启这个参数，当Slip处于边缘位置时（第一个或最后一个slide），Slip释放鼠标滚轮事件，鼠标可以控制页面滚动
             mousewheelInvert: false,        // 这个参数会使鼠标滚轮控制方向反转
-            mousewheelSensitivity: 1,       // 鼠标滚轮的灵敏度，值越大鼠标滚轮滚动时swiper位移越大
+            mousewheelSensitivity: 1,       // 鼠标滚轮的灵敏度，值越大鼠标滚轮滚动时slip位移越大
 
 
 
             // Images (图片选项)
-            preloadImages: true,        // 默认为true，Swiper会强制加载所有图片
-            updateOnImagesReady: true,  // 当所有的内嵌图像（img标签）加载完成后Swiper会重新初始化。使用此选项需要先开启preloadImages: true
+            preloadImages: true,        // 默认为true，Slip会强制加载所有图片
+            updateOnImagesReady: true,  // 当所有的内嵌图像（img标签）加载完成后Slip会重新初始化。使用此选项需要先开启preloadImages: true
 
             // Lazy Loading (延时加载)
             /*
             * 设为true开启图片延迟加载，使preloadImages无效。
-            * 需要将图片img标签的src改写成data-src，并且增加类名swiper-lazy。
+            * 需要将图片img标签的src改写成data-src，并且增加类名slip-lazy。
             * 背景图的延迟加载则增加属性data-background（3.0.7开始启用）。
             *
-            * 还可以为slide加一个预加载，<div class="swiper-lazy-preloader"></div>
-            * 或者白色的<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            * 还可以为slide加一个预加载，<div class="slip-lazy-preloader"></div>
+            * 或者白色的<div class="slip-lazy-preloader slip-lazy-preloader-white"></div>
             *
             * 当你设置了slidesPerView:'auto' 或者 slidesPerView > 1，还需要开启watchSlidesVisibility。
             * */
@@ -232,23 +232,23 @@
 
 
             // Control (双向控制)
-            control: undefined,     // 设置为另外一个Swiper实例开始控制该Swiper
+            control: undefined,     // 设置为另外一个Slip实例开始控制该Slip
             controlInverse: false,  // 设置为true时控制方向倒转
             /*
-            * 设定Swiper相互控制时的控制方式。当两个swiper的slide数量不一致时可用。
+            * 设定Slip相互控制时的控制方式。当两个slip的slide数量不一致时可用。
             *  默认为'slide'，自身切换一个slide时，被控制方也切换一个slide。
             *  可选：'container'，按自身slide在container中的位置比例进行控制。
-            *  例：有4个slide的swiper1控制有7个slide的swiper2，
-            *  设定'slide',swiper1的1,2,3,4对应控制的swiper2为1,2,3,7。
-            *  设定controlBy:'container',swiper1的1,2,3,4对应控制的swiper2为1,3,5,7。
+            *  例：有4个slide的slip1控制有7个slide的slip2，
+            *  设定'slide',slip1的1,2,3,4对应控制的slip2为1,2,3,7。
+            *  设定controlBy:'container',slip1的1,2,3,4对应控制的slip2为1,3,5,7。
             * */
             controlBy: 'slide',
 
 
 
             // Observer (监视器)
-            observer: false,        // 启动动态检查器，当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。默认false，不开启，可以使用update()方法更新
-            observeParents: false,  // 将observe应用于Swiper的父元素。当Swiper的父元素变化时，例如window.resize，Swiper更新
+            observer: false,        // 启动动态检查器，当改变slip的样式（例如隐藏/显示）或者修改slip的子元素时，自动初始化slip。默认false，不开启，可以使用update()方法更新
+            observeParents: false,  // 将observe应用于Slip的父元素。当Slip的父元素变化时，例如window.resize，Slip更新
 
 
 
@@ -269,30 +269,30 @@
 
             /*
              Callbacks:
-             onInit: function (swiper)
-             onDestroy: function (swiper)
-             onClick: function (swiper, e)
-             onTap: function (swiper, e)
-             onDoubleTap: function (swiper, e)
-             onSliderMove: function (swiper, e)
-             onSlideChangeStart: function (swiper)
-             onSlideChangeEnd: function (swiper)
-             onTransitionStart: function (swiper)
-             onTransitionEnd: function (swiper)
-             onImagesReady: function (swiper)
-             onProgress: function (swiper, progress)
-             onTouchStart: function (swiper, e)
-             onTouchMove: function (swiper, e)
-             onTouchMoveOpposite: function (swiper, e)
-             onTouchEnd: function (swiper, e)
-             onReachBeginning: function (swiper)
-             onReachEnd: function (swiper)
-             onSetTransition: function (swiper, duration)
-             onSetTranslate: function (swiper, translate)
-             onAutoplayStart: function (swiper)
-             onAutoplayStop: function (swiper),
-             onLazyImageLoad: function (swiper, slide, image)
-             onLazyImageReady: function (swiper, slide, image)
+             onInit: function (slip)
+             onDestroy: function (slip)
+             onClick: function (slip, e)
+             onTap: function (slip, e)
+             onDoubleTap: function (slip, e)
+             onSliderMove: function (slip, e)
+             onSlideChangeStart: function (slip)
+             onSlideChangeEnd: function (slip)
+             onTransitionStart: function (slip)
+             onTransitionEnd: function (slip)
+             onImagesReady: function (slip)
+             onProgress: function (slip, progress)
+             onTouchStart: function (slip, e)
+             onTouchMove: function (slip, e)
+             onTouchMoveOpposite: function (slip, e)
+             onTouchEnd: function (slip, e)
+             onReachBeginning: function (slip)
+             onReachEnd: function (slip)
+             onSetTransition: function (slip, duration)
+             onSetTranslate: function (slip, translate)
+             onAutoplayStart: function (slip)
+             onAutoplayStop: function (slip),
+             onLazyImageLoad: function (slip, slide, image)
+             onLazyImageReady: function (slip, slide, image)
              */
 
 
