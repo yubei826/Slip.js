@@ -1,0 +1,13 @@
+﻿{
+  "name": "Slip",
+  "version": "1.0.0",
+  "description": "Slip滑屏组件",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "*",
+    "grunt-cli": "*",
+    "grunt-contrib-uglify": "*"
+  },
+  "author": "bei yu",
+  "license": "MIT"
+}

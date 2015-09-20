@@ -1,0 +1,22 @@
+﻿{
+  "name": "Slip",
+  "version": "1.0.0",
+  "description": "Slip滑屏组件",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "*",
+    "grunt-cli": "*",
+    "jpegtran-bin": "~0.2.0",
+    "grunt-contrib-htmlmin": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-imagemin": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-jst": "*"
+  },
+  "author": "bei yu",
+  "license": "MIT"
+}

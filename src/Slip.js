@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Slip.js 0.0.2
  * Author: beiyu
  * time: 20150908
