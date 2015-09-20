@@ -145,23 +145,23 @@
             simulateTouch: true,    // 默认为true，Slip接受鼠标点击、拖动
             onlyExternal: false,    // 值为true时，slide无法拖动，只能使用扩展API函数例如slideNext() 或slidePrev()或slideTo()等改变slides滑动
             followFinger: true,     // 如设置为false，拖动slide时它不会动，当你释放时slide才会切换
-            shortSwipes: true,      // 设置为false时，进行快速短距离的拖动无法触发Slip
-            longSwipesRatio: 0.5,   // 进行longSwipes时触发slip所需要的最小拖动距离比例，即定义longSwipes距离比例。值越大触发Slip所需距离越大。最大值0.5
+            shortSlips: true,      // 设置为false时，进行快速短距离的拖动无法触发Slip
+            longSlipsRatio: 0.5,   // 进行longSlips时触发slip所需要的最小拖动距离比例，即定义longSlips距离比例。值越大触发Slip所需距离越大。最大值0.5
             threshold: 0,           // 拖动的临界值（单位为px），如果触摸距离小于该值滑块不会被拖动
             touchAngle: 45,         // 允许触发拖动的角度值。默认45度，即使触摸方向不是完全水平也能拖动slide
-            longSwipes: true,       // 设置为false时，进行长时间长距离的拖动无法触发Slip
+            longSlips: true,       // 设置为false时，进行长时间长距离的拖动无法触发Slip
             touchMoveStopPropagation: true, // true时阻止touchmove冒泡事件
-            longSwipesMs: 300,      // 定义longSwipes的时间（单位ms），超过则属于longSwipes。
+            longSlipsMs: 300,      // 定义longSlips的时间（单位ms），超过则属于longSlips。
             resistance: true,       // 边缘抵抗。当slip已经处于第一个或最后一个slide时，继续拖动Slip会离开边界，释放后弹回。边缘抵抗就是拖离边界时的抵抗力。值为false时禁用，将slide拖离边缘时完全没有抗力。可以通过resistanceRatio设定抵抗力大小
             resistanceRatio: 0.85,  // 抵抗率。边缘抵抗力的大小比例。值越小抵抗越大越难将slide拖离边缘，0时完全无法拖离
 
 
 
-            // Swiping/no sliping (禁止切换)
-            noSwiping: true,        // 设为true时，可以在slide上（或其他元素）增加类名'slip-no-sliping'，使该slide无法拖动，该类名可通过noSwipingClass修改
-            noSwipingClass: 'slip-no-sliping',    // // 不可拖动块的类名，当noSwiping设置为true时，并且在slide加上此类名，slide无法拖动
-            allowSwipeToPrev: true, // 设为false可禁止向左或上滑动。作用类似mySlip.lockSwipeToPrev()
-            allowSwipeToNext: true, // 设为false可禁止向左或下滑动。作用类似mySlip.lockSwipeToNext()
+            // Sliping/no sliping (禁止切换)
+            noSliping: true,        // 设为true时，可以在slide上（或其他元素）增加类名'slip-no-sliping'，使该slide无法拖动，该类名可通过noSlipingClass修改
+            noSlipingClass: 'slip-no-sliping',    // // 不可拖动块的类名，当noSliping设置为true时，并且在slide加上此类名，slide无法拖动
+            allowSlipToPrev: true, // 设为false可禁止向左或上滑动。作用类似mySlip.lockSlipToPrev()
+            allowSlipToNext: true, // 设为false可禁止向左或下滑动。作用类似mySlip.lockSlipToNext()
             slipHandler: null,     // CSS选择器或者HTML元素。你只能拖动它进行sliping
 
 
@@ -298,6 +298,8 @@
 
         };
 
+        var initialVirtualTranslate = params && params.virtualTranslate;
+
         params = params || {};
         for (var def in defaults) {
             if (typeof params[def] === 'undefined') {
@@ -311,14 +313,17 @@
             }
         }
 
+        // Slip
+        var s = this;
+
         // 版本
-        this.version = '0.0.1';
+        s.version = '0.0.1';
 
         // 参数
-        this.params = params;
+        s.params = params;
 
         // Classname
-        this.classNames = [];
+        s.classNames = [];
 
         /*=========================
          Dom Library and plugins
@@ -336,43 +341,318 @@
         }
 
         // Export it to Slip instance
-        this.$ = $;
+        s.$ = $;
 
         /*=========================
          Preparation - Define Container, Wrapper and Pagination
          ===========================*/
-        this.container = $(container);
-        if (this.container.length === 0) return;
-        if (this.container.length > 1) {
-            this.container.each(function () {
+        s.container = $(container);
+        if (s.container.length === 0) return;
+        if (s.container.length > 1) {
+            s.container.each(function () {
                 new Slip(this, params);
             });
             return;
         }
 
         // 保存 container HTML元素和数据
-        this.container[0].slip = this;
-        this.container.data('slip', this);
+        s.container[0].slip = s;
+        s.container.data('slip', s);
 
-        this.classNames.push('slip-container-' + this.params.direction);
+        s.classNames.push('slip-container-' + s.params.direction);
 
-        this.wrapper = this.container.children('.' + this.params.wrapperClass);
+        if(s.params.freeMode){
+            s.classNames.push('slip-container-free-mode');
+        }
+        if(!s.params.flexbox){
+            s.classNames.push('slip-container-no-flexbox');
+            s.params.slidesPerColumn = 1;
+        }
 
-        // 分屏器
-        if(this.params.pagination){
-            this.paginationContainer = $(this.params.pagination);
-            if(this.paginationClickable){
-                this.paginationContainer.addClass('slip-pagination-clickable');
+        // 开启幻灯片模式
+        if(s.params.parallax || s.params.watchSlidesVisibility){
+            s.params.watchSlidesProgress = true;
+        }
+
+        // Coverflow / 3D
+        if (['cube', 'coverflow'].indexOf(s.params.effect) >= 0){
+            if(s.support.transforms3d){
+                s.support.watchSlidesProgress = true;
+                s.classNames.push('slip-container-3d');
+            }
+        }
+        if(s.params.effect !== 'slide'){
+            s.classNames.push('slip-container-' + s.params.effect);
+        }
+        if(s.params.effect === 'cube'){
+            s.params.resistanceRatio = 0;
+            s.params.slidesPerView = 1;
+            s.params.slidesPerColumn = 1;
+            s.params.slidesPerGroup = 1;
+            s.params.centeredSlides = false;
+            s.params.spaceBetween = 0;
+            s.params.virtualTranslate = true;
+            s.params.setWrapperSize = false;
+        }
+        if(s.params.effect === 'fade'){
+            s.params.slidesPerView = 1;
+            s.params.slidesPerColumn = 1;
+            s.params.slidesPerGroup = 1;
+            s.params.watchSlidesProgress = true;
+            s.params.spaceBetween = 0;
+            if (typeof initialVirtualTranslate === 'undefined') {
+                s.params.virtualTranslate = true;
             }
         }
 
-        // 判断是否是安卓设备
-        if(this.device.android){
-            this.classNames.push('slip-container-android');
+        // 鼠标手势
+        if (s.params.grabCursor && s.support.touch){
+            s.params.grabCursor = false;
         }
 
-        // 添加样式
-        this.container.addClass(this.classNames.join(' '));
+        // Wrapper
+        s.wrapper = s.container.children('.' + s.params.wrapperClass);
+
+        // 分屏器
+        if(s.params.pagination){
+            ss.paginationContainer = $(s.params.pagination);
+            if(this.paginationClickable){
+                s.paginationContainer.addClass('slip-pagination-clickable');
+            }
+        }
+
+        // 是否水平滑动
+        function isH(){
+            return s.params.direction === 'horizontal';
+        }
+
+        // 错误的 RTL 支持
+        if (s.rtl) {
+            s.wrongRTL = s.wrapper.css('display') === '-webkit-box';
+        }
+
+        // Columns
+        if (s.params.slidesPerColumn > 1) {
+            s.classNames.push('slip-container-multirow');
+        }
+
+        // 检查是否是安卓设备
+        if (s.device.android) {
+            s.classNames.push('slip-container-android');
+        }
+
+        // Add classes
+        s.container.addClass(s.classNames.join(' '));
+
+        // Translate
+        s.translate = 0;
+
+        // Progress
+        s.progress = 0;
+
+        // Velocity
+        s.velocity = 0;
+
+
+
+        /*=========================
+         锁定上下屏和解锁上下屏开关
+         ===========================*/
+        s.lockSlipToPrev = function () {
+            s.params.allowSlipToPrev = false;
+        };
+        s.lockSlipToNext = function () {
+            s.params.allowSlipToNext = false;
+        };
+        s.lockSlips = function () {
+            s.params.allowSlipToNext = s.params.allowSlipToPrev = false;
+        };
+        s.unlockSlipToPrev = function () {
+            s.params.allowSlipToPrev = true;
+        };
+        s.unlockSlipToNext = function () {
+            s.params.allowSlipToNext = true;
+        };
+        s.unlockSlips = function () {
+            s.params.allowSlipToNext = s.params.allowSlipToPrev = true;
+        };
+
+        /*=========================
+         Round helper
+         ===========================*/
+        function round(a) {
+            return Math.floor(a);
+        }
+
+        // 设置PC模式下的鼠标手势
+        if(s.params.grabCursor){
+            s.container[0].style.cursor = 'move';
+            s.container[0].style.cursor = '-webkit-grab';
+            s.container[0].style.cursor = '-moz-grab';
+            s.container[0].style.cursor = 'grab';
+        }
+
+        // TODO 这里是图片延时加载方式，目前没做
+        // images
+
+        // TODO 这里是自动滚动方法，目前没做
+        // AutoPlay
+
+        // TODO Min/Max Translate
+
+        // TODO Slider/slides progress
+
+        // TODO Classes
+
+        // TODO  Pagination
+
+        // TODO Common update method
+
+        // TODO Resize Handler
+
+        // 定义 Touch 事件
+        var desktopEvents = ['mousedown', 'mousemove', 'mouseup'];
+        if(window.navigator.pointerEnabled) desktopEvents = ['pointerdown', 'pointermove', 'pointerup'];
+        else if(window.navigator.msPointerEnabled) desktopEvents = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
+        s.touchEvents = {
+            start : s.support.touch || !s.params.simulateTouch  ? 'touchstart' : desktopEvents[0],
+            move : s.support.touch || !s.params.simulateTouch ? 'touchmove' : desktopEvents[1],
+            end : s.support.touch || !s.params.simulateTouch ? 'touchend' : desktopEvents[2]
+        };
+
+        // WP8 Touch Events Fix
+        if(window.navigator.pointerEnabled || window.msPointerEnabled){
+            (s.params.touchEventsTarget === 'container' ? s.container : s.wrapper).addClass('slip-wp8-' + s.params.direction);
+        }
+
+        // 绑定 / 解绑 事件
+        s.initEvents = function(detach){
+            var actionDom = detach ? 'off' : 'on'
+            var action = detach ? 'removeEventListener' : 'addEventListener';
+            var touchEventsTarget = s.params.touchEventsTarget === 'container' ? s.container[0] : s.wrapper[0];
+            var target = s.support.touch ? touchEventsTarget : document;
+
+            var moveCapture = s.params.nested ? true : false;
+
+            //Touch Events
+            if(s.browser.ie){
+                touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
+                target[action](s.touchEvents.move, s.onTouchMove, moveCapture);
+                target[action](s.touchEvents.end, s.onTouchEnd, false);
+            }else{
+                if(s.support.touc){
+                    touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
+                    touchEventsTarget[action](s.touchEvents.move, s.onTouchMove, moveCapture);
+                    touchEventsTarget[action](s.touchEvents.end, s.onTouchEnd, false);
+                }
+                if (params.simulateTouch && !s.device.ios && !s.device.android) {
+                    touchEventsTarget[action]('mousedown', s.onTouchStart, false);
+                    document[action]('mousemove', s.onTouchMove, moveCapture);
+                    document[action]('mouseup', s.onTouchEnd, false);
+                }
+            }
+            //window[action]('resize', s.onResize);
+
+            // 上一页，下一页，索引
+            if (s.params.nextButton) {
+                $(s.params.nextButton)[actionDom]('click', s.onClickNext);
+                //if (s.params.a11y && s.a11y) $(s.params.nextButton)[actionDom]('keydown', s.a11y.onEnterKey);
+            }
+            if (s.params.prevButton) {
+                $(s.params.prevButton)[actionDom]('click', s.onClickPrev);
+                //if (s.params.a11y && s.a11y) $(s.params.prevButton)[actionDom]('keydown', s.a11y.onEnterKey);
+            }
+            if (s.params.pagination && s.params.paginationClickable) {
+                $(s.paginationContainer)[actionDom]('click', '.' + s.params.bulletClass, s.onClickIndex);
+                //if (s.params.a11y && s.a11y) $(s.paginationContainer)[actionDom]('keydown', '.' + s.params.bulletClass, s.a11y.onEnterKey);
+            }
+
+            // 防止链接点击
+            if(s.params.preventClicks || s.params.preventClicksPropagation){
+                touchEventsTarget[action]('click', s.preventClicks, true);
+            }
+        };
+        s.attachEvents = function(){
+            s.initEvents();
+        };
+        s.detachEvents = function(){
+            s.initEvents(true);
+        };
+
+        // 阻止链接
+        s.allowClick = true;
+        s.preventClicks = function(e){
+            if(!s.allowClick){
+                if(s.params.preventClicks) e.preventDefault();
+                if(s.params.preventClicksPropagation && s.animating){
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                }
+            }
+        };
+
+        // Click
+        s.onClickPrev = function(e){
+            e.preventDefault();
+            if(s.isBeginning && !s.params.loop) return;
+            s.slidePrev();
+        };
+        s.onClickNext = function (e) {
+            e.preventDefault();
+            if(s.isEnd && !s.params.loop) return;
+            s.slideNext();
+        };
+        s.onClickIndex = function (e) {
+            e.preventDefault();
+            var index = $(this).index() * s.params.slidesPerGroup;
+            if (s.params.loop) index = index + s.loopedSlides;
+            s.slideTo(index);
+        };
+
+        // TODO findElementInEvent
+        // TODO s.updateClickedSlide
+
+        var isTouched,
+            isMoved,
+            touchStartTime,
+            isScrolling,
+            currentTranslate,
+            startTranslate,
+            allowThresholdMove,
+            formElements = 'input, select, textarea, button',   // // 表单元素匹配
+            lastClickTime = Date.now(), clickTimeout,   // // 最后点击时间
+            velocities = [],    // // 速度
+            allowMomentumBounce;
+
+
+        s.animating = false; // 动画标识
+
+        // Touches 信息
+        s.touches = {
+            startX: 0,
+            startY: 0,
+            currentX: 0,
+            currentY: 0,
+            diff: 0
+        };
+
+
+
+        // 触摸处理
+        var isTouchEvent, startMoving;
+        s.onTouchStart = function(e){
+            if(e.originalEvent) e = e.originalEvent;
+            isTouchEvent = e.type === 'touchstart';
+            if (!isTouchEvent && 'which' in e && e.which === 3) return;
+            if (s.params.noSliping && findElementInEvent(e, '.' + s.params.noSlipingClass)) {
+                s.allowClick = true;
+                return;
+            }
+
+        };
+
+
+
 
         this.init();
 
@@ -383,50 +663,60 @@
      Prototype
      ====================================================*/
     Slip.prototype = {
-        init: function(){
-
+        isSafari: (function(){
+            var ua = navigator.userAgent.toLowerCase();
+            return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
+        })(),
+        isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent),
+        isArray: function(arr){
+            return Object.prototype.toString.apply(arr) === '[object Array]';
         },
 
-        // 是否水平滑动
-        isH: function(){
-            return this.params.direction === 'horizontal';
+        // 浏览器
+        browser: {
+            ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
+            ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1)
         },
 
-        // 上下页的锁和解锁
-        lockSwipeToPrev: function () {
-            this.params.allowSlipToPrev = false;
-        },
-        lockSlipToNext: function(){
-            this.params.allowSlipToNext = false;
-        },
-        lockSlip: function(){
-            this.params.allowSlipToPrev = this.params.allowSlipToNext = false;
-        },
-        unlockSwipeToPrev: function () {
-            this.params.allowSwipeToPrev = true;
-        },
-        unlockSwipeToNext: function () {
-            this.params.allowSwipeToNext = true;
-        },
-        unlockSwipes: function () {
-            this.params.allowSwipeToPrev = this.params.allowSwipeToNext = true;
-        },
-
-
-
-
+        // 设备
         device: (function(){
             var ua = navigator.userAgent;
             var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
             var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
             var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
             var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
-            return{
+            return {
                 ios: ipad || iphone || ipod,
                 android: android
-            }
-        })()
+            };
+        })(),
 
+        // 特性检测
+        support: {
+            touch: (window.Modernizr && Modernizr.touch === true) || (function () {
+                return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+            })(),
+
+            transforms3d : (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
+                var div = document.createElement('div').style;
+                return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
+            })(),
+
+            flexbox: (function () {
+                var div = document.createElement('div').style;
+                var styles = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
+                for (var i = 0; i < styles.length; i++) {
+                    if (styles[i] in div) return true;
+                }
+            })(),
+
+            observer: (function () {
+                return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
+            })()
+        },
+
+        // 插件
+        plugins: {}
 
     };
 
