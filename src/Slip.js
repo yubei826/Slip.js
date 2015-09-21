@@ -22,9 +22,9 @@
             initialSlide: 0,        // 设定初始化时slide的索引
             direction: 'vertical',  // Slides的滑动方向，可设置水平(horizontal)或垂直(vertical)
             speed: 300,             // 滑动速度，即slider自动滑动开始到结束的时间（单位ms）
-            autoplay: false,       //自动切换的时间间隔（单位ms），不设定该参数slide不会自动切换
+            //autoplay: false,       //自动切换的时间间隔（单位ms），不设定该参数slide不会自动切换
                                     // 用户操作后autoplay停止，参考基本选项 autoplayDisableOnInteraction
-            autoplayDisableOnInteraction: true, // 用户操作slip之后，是否禁止autoplay。默认为true：停止
+            //autoplayDisableOnInteraction: true, // 用户操作slip之后，是否禁止autoplay。默认为true：停止
                                                 // 如果设置为false，用户操作slipr之后自动切换不会停止，每次都会重新启动autoplay。
                                                 // 操作包括触碰，拖动，点击pagination等。
             grabCursor: false,      // 设置为true时，鼠标覆盖Slip时指针会变成手掌形状，拖动时指针会变成抓手形状。（根据浏览器形状有所不同）
@@ -47,11 +47,11 @@
             * slip-container的子元素，设定了data-slip-parallax=1000，当slide从0过渡到1时（初始向右滑动），该元素向右移动250px。
             * slides的子元素，设定了data-slip-parallax=1000，当slide从0过渡到1时（初始向右滑动），该元素相对于slide从0向右移动到250px处。nextslide内元素相对于slide从-250px向右移动0px处。
             * */
-            parallax: false,
-            hashnav: false,         // 如需使用散列导航（有点像锚链接）将此参数设置为true。此外在每个slide处增加data-hash属性。这样当你的slip切换时你的页面url就会加上这个属性的值了，你也可以通过进入页面时修改页面url让slip在初始化时切换到指定的slide
-            setWrapperSize: false,  // Slip从3.0开始使用flexbox布局(display: flex)，开启这个设定会在Wrapper上添加等于slides相加的宽高，在对flexbox布局的支持不是很好的浏览器中可能需要用到
+            //parallax: false,
+            //hashnav: false,         // 如需使用散列导航（有点像锚链接）将此参数设置为true。此外在每个slide处增加data-hash属性。这样当你的slip切换时你的页面url就会加上这个属性的值了，你也可以通过进入页面时修改页面url让slip在初始化时切换到指定的slide
+            //setWrapperSize: false,  // Slip从3.0开始使用flexbox布局(display: flex)，开启这个设定会在Wrapper上添加等于slides相加的宽高，在对flexbox布局的支持不是很好的浏览器中可能需要用到
             virtualTranslate: false,// 虚拟位移。当你启用这个参数，Slip除了不会移动外其他的都像平时一样运行，仅仅是不会在Wrapper上设置位移。当你想自定义一些slide切换效果时可以用，启用这个选项时onSlideChange和onTransition事件失效
-            roundLengths: false,    // 设定为true将slide的宽和高取整(四舍五入)以防止某些分辨率的屏幕上文字模糊
+            //roundLengths: false,    // 设定为true将slide的宽和高取整(四舍五入)以防止某些分辨率的屏幕上文字模糊
             slidesOffsetBefore: 0,  // 设定slide与左边框的预设偏移量（单位px） // 属于 网格分布
             slidesOffsetAfter: 0,   // 设定slide与右边框的预设偏移量（单位px） // 属于 网格分布
 
@@ -66,29 +66,29 @@
             *
             * slip的progress其实就是wrapper的translate值的百分值，与activeIndex等属性不同，progress是随着slip的切换而不停的变化，而不是在某个时间点突变。
             * */
-            watchSlidesProgress: false,
-            watchSlidesVisibility: false,   // 开启watchSlidesVisibility选项前需要先开启watchSlidesProgress，如果开启了watchSlidesVisibility，则会在每个可见slide增加一个classname，默认为'slip-slide-visible'
+            //watchSlidesProgress: false,
+            //watchSlidesVisibility: false,   // 开启watchSlidesVisibility选项前需要先开启watchSlidesProgress，如果开启了watchSlidesVisibility，则会在每个可见slide增加一个classname，默认为'slip-slide-visible'
 
 
 
             // Free mode (free模式/抵抗反弹)
-            freeMode: false,                // 默认为false，普通模式：slide滑动时只滑动一格，并自动贴合wrapper，设置为true则变为free模式，slide会根据惯性滑动且不会贴合
-            freeModeMomentum: true,         // free模式动量。free模式下，若设置为false则关闭动量，释放slide之后立即停止不会滑动
-            freeModeMomentumRatio: 1,       // free模式动量值（移动惯量）。设置的值越大，当释放slide时的滑动距离越大
-            freeModeMomentumBounce: true,   // 动量反弹。false时禁用free模式下的动量反弹，slides通过惯性滑动到边缘时，无法反弹。注意与resistance（手动抵抗）区分
-            freeModeMomentumBounceRatio: 1, // 值越大产生的边界反弹效果越明显，反弹距离越大
-            freeModeSticky: false,          // 使得freeMode也能自动贴合
+            //freeMode: false,                // 默认为false，普通模式：slide滑动时只滑动一格，并自动贴合wrapper，设置为true则变为free模式，slide会根据惯性滑动且不会贴合
+            //freeModeMomentum: true,         // free模式动量。free模式下，若设置为false则关闭动量，释放slide之后立即停止不会滑动
+            //freeModeMomentumRatio: 1,       // free模式动量值（移动惯量）。设置的值越大，当释放slide时的滑动距离越大
+            //freeModeMomentumBounce: true,   // 动量反弹。false时禁用free模式下的动量反弹，slides通过惯性滑动到边缘时，无法反弹。注意与resistance（手动抵抗）区分
+            //freeModeMomentumBounceRatio: 1, // 值越大产生的边界反弹效果越明显，反弹距离越大
+            //freeModeSticky: false,          // 使得freeMode也能自动贴合
 
 
 
             // Slides grid (网格分布)
-            centeredSlides: false,  // 设定为true时，活动块会居中，而不是默认状态下的居左
+            //centeredSlides: false,  // 设定为true时，活动块会居中，而不是默认状态下的居左
             /*
             * 设置slider容器能够同时显示的slides数量(carousel模式)。
             * 可以设置为number或者 'auto'则自动根据slides的宽度来设定数量。
             * loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
             * */
-            slidesPerView: 1,
+            //slidesPerView: 1,
             slidesPerGroup: 1,  // 在carousel mode下定义slides的数量多少为一组
             spaceBetween: 0,    // slide之间的距离（单位px）
             slidesPerColumn: 1, // 多行布局里面每列的slide数量
@@ -112,7 +112,7 @@
             * 默认：false。关闭淡出。过渡时，原slide透明度为1（不淡出），过渡中的slide透明度从0->1（淡入），其他slide透明度0。
             * 可选值：true。开启淡出。过渡时，原slide透明度从1->0（淡出），过渡中的slide透明度从0->1（淡入），其他slide透明度0。
             * */
-            fade: {
+            /*fade: {
                 crossFade: false
             },
             // cube效果参数，可选值：
@@ -129,7 +129,7 @@
                 depth: 100,         // slide的位置深度，值越大z轴距离越远，看起来越小，默认100
                 modifier: 1,        // depth和rotate和stretch的倍率，相当于depth*modifier、rotate*modifier、stretch*modifier，值越大这三个参数的效果越明显，默认1
                 slideShadows : true // 开启slide阴影，默认 true
-            },
+            },*/
 
 
 
@@ -362,32 +362,32 @@
 
         s.classNames.push('slip-container-' + s.params.direction);
 
-        if(s.params.freeMode){
+        /*if(s.params.freeMode){
             s.classNames.push('slip-container-free-mode');
         }
         if(!s.params.flexbox){
             s.classNames.push('slip-container-no-flexbox');
             s.params.slidesPerColumn = 1;
-        }
+        }*/
 
         // 开启幻灯片模式
-        if(s.params.parallax || s.params.watchSlidesVisibility){
+        /*if(s.params.parallax || s.params.watchSlidesVisibility){
             s.params.watchSlidesProgress = true;
-        }
+        }*/
 
         // Coverflow / 3D
-        if (['cube', 'coverflow'].indexOf(s.params.effect) >= 0){
+        /*if (['cube', 'coverflow'].indexOf(s.params.effect) >= 0){
             if(s.support.transforms3d){
                 s.params.watchSlidesProgress = true;
                 s.classNames.push('slip-container-3d');
             }else{
                 s.params.effect = 'slide';
             }
-        }
+        }*/
         if(s.params.effect !== 'slide'){
             s.classNames.push('slip-container-' + s.params.effect);
         }
-        if(s.params.effect === 'cube'){
+        /*if(s.params.effect === 'cube'){
             s.params.resistanceRatio = 0;
             s.params.slidesPerView = 1;
             s.params.slidesPerColumn = 1;
@@ -406,7 +406,7 @@
             if (typeof initialVirtualTranslate === 'undefined') {
                 s.params.virtualTranslate = true;
             }
-        }
+        }*/
 
         // 鼠标手势
         if (s.params.grabCursor && s.support.touch){
@@ -442,9 +442,9 @@
         }
 
         // Columns
-        if (s.params.slidesPerColumn > 1) {
-            s.classNames.push('slip-container-multirow');
-        }
+        /*if (s.params.slidesPerColumn > 1) {
+         s.classNames.push('slip-container-multirow');
+         }*/
 
         // 检查是否是安卓设备
         if (s.device.android) {
@@ -582,7 +582,7 @@
             for (i = 0; i < s.slides.length; i++) {
                 slideSize = 0;
                 var slide = s.slides.eq(i);
-                if (s.params.slidesPerColumn > 1) {
+                /*if (s.params.slidesPerColumn > 1) {
                     // Set slides order
                     var newSlideOrderIndex;
                     var column, row;
@@ -616,15 +616,15 @@
                         .attr('data-slip-column', column)
                         .attr('data-slip-row', row);
 
-                }
+                }*/
                 if (slide.css('display') === 'none') continue;
-                if (s.params.slidesPerView === 'auto') {
+                /*if (s.params.slidesPerView === 'auto') {
                     slideSize = isH() ? slide.outerWidth(true) : slide.outerHeight(true);
                     if (s.params.roundLengths) slideSize = round(slideSize);
-                }
-                else {
-                    slideSize = (s.size - (s.params.slidesPerView - 1) * spaceBetween) / s.params.slidesPerView;
-                    if (s.params.roundLengths) slideSize = round(slideSize);
+                } else {*/
+                    //slideSize = (s.size - (s.params.slidesPerView - 1) * spaceBetween) / s.params.slidesPerView;
+                    slideSize = s.size;
+                    //if (s.params.roundLengths) slideSize = round(slideSize);
 
                     if (isH()) {
                         s.slides[i].style.width = slideSize + 'px';
@@ -632,23 +632,22 @@
                     else {
                         s.slides[i].style.height = slideSize + 'px';
                     }
-                }
+                //}
                 s.slides[i].slipSlideSize = slideSize;
                 s.slidesSizesGrid.push(slideSize);
 
 
-                if (s.params.centeredSlides) {
+                /*if (s.params.centeredSlides) {
                     slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + spaceBetween;
                     if (i === 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
                     if (Math.abs(slidePosition) < 1 / 1000) slidePosition = 0;
                     if ((index) % s.params.slidesPerGroup === 0) s.snapGrid.push(slidePosition);
                     s.slidesGrid.push(slidePosition);
-                }
-                else {
+                } else {*/
                     if ((index) % s.params.slidesPerGroup === 0) s.snapGrid.push(slidePosition);
                     s.slidesGrid.push(slidePosition);
                     slidePosition = slidePosition + slideSize + spaceBetween;
-                }
+                //}
 
                 s.virtualSize += slideSize + spaceBetween;
 
@@ -660,30 +659,29 @@
 
             var newSlidesGrid;
 
-            if (
-                s.rtl && s.wrongRTL && (s.params.effect === 'slide' || s.params.effect === 'coverflow')) {
+            if (s.rtl && s.wrongRTL && (s.params.effect === 'slide' || s.params.effect === 'coverflow')) {
                 s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
             }
-            if (!s.support.flexbox || s.params.setWrapperSize) {
+            /*if (!s.support.flexbox || s.params.setWrapperSize) {
                 if (isH()) s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
                 else s.wrapper.css({height: s.virtualSize + s.params.spaceBetween + 'px'});
-            }
+            }*/
 
             if (s.params.slidesPerColumn > 1) {
                 s.virtualSize = (slideSize + s.params.spaceBetween) * slidesNumberEvenToRows;
                 s.virtualSize = Math.ceil(s.virtualSize / s.params.slidesPerColumn) - s.params.spaceBetween;
                 s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
-                if (s.params.centeredSlides) {
+               /* if (s.params.centeredSlides) {
                     newSlidesGrid = [];
                     for (i = 0; i < s.snapGrid.length; i++) {
                         if (s.snapGrid[i] < s.virtualSize + s.snapGrid[0]) newSlidesGrid.push(s.snapGrid[i]);
                     }
                     s.snapGrid = newSlidesGrid;
-                }
+                }*/
             }
 
             // Remove last grid elements depending on width
-            if (!s.params.centeredSlides) {
+            /*if (!s.params.centeredSlides) {
                 newSlidesGrid = [];
                 for (i = 0; i < s.snapGrid.length; i++) {
                     if (s.snapGrid[i] <= s.virtualSize - s.size) {
@@ -694,7 +692,7 @@
                 if (Math.floor(s.virtualSize - s.size) > Math.floor(s.snapGrid[s.snapGrid.length - 1])) {
                     s.snapGrid.push(s.virtualSize - s.size);
                 }
-            }
+            }*/
             if (s.snapGrid.length === 0) s.snapGrid = [0];
 
             if (s.params.spaceBetween !== 0) {
@@ -704,9 +702,9 @@
                 }
                 else s.slides.css({marginBottom: spaceBetween + 'px'});
             }
-            if (s.params.watchSlidesProgress) {
+            /*if (s.params.watchSlidesProgress) {
                 s.updateSlidesOffset();
-            }
+            }*/
         };
         s.updateSlidesOffset = function () {
             for (var i = 0; i < s.slides.length; i++) {
@@ -733,7 +731,7 @@
             for (var i = 0; i < s.slides.length; i++) {
                 var slide = s.slides[i];
                 var slideProgress = (offsetCenter - slide.slipSlideOffset) / (slide.slipSlideSize + s.params.spaceBetween);
-                if (s.params.watchSlidesVisibility) {
+                /*if (s.params.watchSlidesVisibility) {
                     var slideBefore = -(offsetCenter - slide.slipSlideOffset);
                     var slideAfter = slideBefore + s.slidesSizesGrid[i];
                     var isVisible =
@@ -743,7 +741,7 @@
                     if (isVisible) {
                         s.slides.eq(i).addClass(s.params.slideVisibleClass);
                     }
-                }
+                }*/
                 slide.progress = s.rtl ? -slideProgress : slideProgress;
             }
         };
@@ -764,7 +762,7 @@
             if (s.isBeginning) s.emit('onReachBeginning', s);
             if (s.isEnd) s.emit('onReachEnd', s);
 
-            if (s.params.watchSlidesProgress) s.updateSlidesProgress(translate);
+            //if (s.params.watchSlidesProgress) s.updateSlidesProgress(translate);
             s.emit('onProgress', s, s.progress);
         };
         s.updateActiveIndex = function () {
@@ -909,7 +907,7 @@
 
         // 绑定 / 解绑 事件
         s.initEvents = function(detach){
-            var actionDom = detach ? 'off' : 'on'
+            var actionDom = detach ? 'off' : 'on';
             var action = detach ? 'removeEventListener' : 'addEventListener';
             var touchEventsTarget = s.params.touchEventsTarget === 'container' ? s.container[0] : s.wrapper[0];
             var target = s.support.touch ? touchEventsTarget : document;
@@ -1032,7 +1030,7 @@
             if (s.params.slideToClickedSlide && s.clickedIndex !== undefined && s.clickedIndex !== s.activeIndex) {
                 var slideToIndex = s.clickedIndex,
                     realIndex;
-                if (s.params.loop) {
+                /*if (s.params.loop) {
                     realIndex = $(s.clickedSlide).attr('data-slip-slide-index');
                     if (slideToIndex > s.slides.length - s.params.slidesPerView) {
                         s.fixLoop();
@@ -1040,8 +1038,7 @@
                         setTimeout(function () {
                             s.slideTo(slideToIndex);
                         }, 0);
-                    }
-                    else if (slideToIndex < s.params.slidesPerView - 1) {
+                    } else if (slideToIndex < s.params.slidesPerView - 1) {
                         s.fixLoop();
                         var duplicatedSlides = s.wrapper.children('.' + s.params.slideClass + '[data-slip-slide-index="' + realIndex + '"]');
                         slideToIndex = duplicatedSlides.eq(duplicatedSlides.length - 1).index();
@@ -1052,10 +1049,9 @@
                     else {
                         s.slideTo(slideToIndex);
                     }
-                }
-                else {
+                } else {*/
                     s.slideTo(slideToIndex);
-                }
+                //}
             }
         };
 
@@ -1267,7 +1263,7 @@
                 }
             }
             // Update active index in free mode
-            if (s.params.freeMode || s.params.watchSlidesProgress) {
+            /*if (s.params.freeMode || s.params.watchSlidesProgress) {
                 s.updateActiveIndex();
             }
             if (s.params.freeMode) {
@@ -1282,7 +1278,7 @@
                     position: s.touches[isH() ? 'currentX' : 'currentY'],
                     time: (new window.Date()).getTime()
                 });
-            }
+            }*/
             // Update progress
             s.updateProgress(currentTranslate);
             // Update translate
@@ -1345,7 +1341,7 @@
                 currentPos = -currentTranslate;
             }
 
-            if (s.params.freeMode) {
+            /*if (s.params.freeMode) {
                 if (currentPos < -s.minTranslate()) {
                     s.slideTo(s.activeIndex);
                     return;
@@ -1487,7 +1483,7 @@
                     s.updateActiveIndex();
                 }
                 return;
-            }
+            }*/
 
             // Find current slide
             var i, stopIndex = 0, groupSize = s.slidesSizesGrid[0];
@@ -1677,7 +1673,7 @@
             if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
                 s.effects[s.params.effect].setTransition(duration);
             }
-            if (s.params.parallax && s.parallax) {
+           /* if (s.params.parallax && s.parallax) {
                 s.parallax.setTransition(duration);
             }
             if (s.params.scrollbar && s.scrollbar) {
@@ -1685,7 +1681,7 @@
             }
             if (s.params.control && s.controller) {
                 s.controller.setTransition(duration, byController);
-            }
+            }*/
             s.emit('onSetTransition', s, duration);
         };
         s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
@@ -1707,7 +1703,7 @@
             if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
                 s.effects[s.params.effect].setTranslate(s.translate);
             }
-            if (s.params.parallax && s.parallax) {
+            /*if (s.params.parallax && s.parallax) {
                 s.parallax.setTranslate(s.translate);
             }
             if (s.params.scrollbar && s.scrollbar) {
@@ -1715,7 +1711,7 @@
             }
             if (s.params.control && s.controller) {
                 s.controller.setTranslate(s.translate, byController);
-            }
+            }*/
             s.emit('onSetTranslate', s, s.translate);
         };
 
@@ -1803,8 +1799,8 @@
 
             s.slideTo(s.params.initialSlide, 0, s.params.runCallbacksOnInit);
             if (s.params.initialSlide === 0) {
-                if (s.parallax && s.params.parallax) s.parallax.setTranslate();
-                /*if (s.lazy && s.params.lazyLoading) {
+                /*if (s.parallax && s.params.parallax) s.parallax.setTranslate();
+                if (s.lazy && s.params.lazyLoading) {
                     s.lazy.load();
                     s.lazy.initialImageLoaded = true;
                 }*/
