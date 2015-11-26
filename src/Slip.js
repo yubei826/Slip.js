@@ -189,18 +189,22 @@
 
 
             // Keyboard Mousewheel (鼠标、键盘控制选项)
+            /*
             keyboardControl: false,         // 是否开启键盘控制Slip切换。设置为true时，能使用键盘方向键控制slide滑动
             mousewheelControl: false,       // 是否开启鼠标控制Slip切换。设置为true时，能使用鼠标滚轮控制slide滑动
             mousewheelForceToAxis: false,   // 当值为true让鼠标滚轮固定于轴向。当水平mode时的鼠标滚轮只有水平滚动才会起效，当垂直mode时的鼠标滚轮只有垂直滚动才会起效。普通家用鼠标只有垂直方向的滚动
             mousewheelReleaseOnEdges: false,// 如果开启这个参数，当Slip处于边缘位置时（第一个或最后一个slide），Slip释放鼠标滚轮事件，鼠标可以控制页面滚动
             mousewheelInvert: false,        // 这个参数会使鼠标滚轮控制方向反转
             mousewheelSensitivity: 1,       // 鼠标滚轮的灵敏度，值越大鼠标滚轮滚动时slip位移越大
+            */
 
 
 
             // Images (图片选项)
+            /*
             preloadImages: true,        // 默认为true，Slip会强制加载所有图片
             updateOnImagesReady: true,  // 当所有的内嵌图像（img标签）加载完成后Slip会重新初始化。使用此选项需要先开启preloadImages: true
+            */
 
             // Lazy Loading (延时加载)
             /*
@@ -213,13 +217,16 @@
             *
             * 当你设置了slidesPerView:'auto' 或者 slidesPerView > 1，还需要开启watchSlidesVisibility。
             * */
+            /*
             lazyLoading: false,
             lazyLoadingInPrevNext: false,       // 设置为true允许将延迟加载应用到最接近的slide的图片（前一个和后一个slide）
             lazyLoadingOnTransitionStart: false,// 默认当过渡到slide后开始加载图片，如果你想在过渡一开始就加载，设置为true
+            */
 
 
 
             // Loop (环路)
+            // todo 待去掉这个
             loop: false,        // 设置为true 则开启loop模式。loop模式：会在wrapper前后生成若干个slides让slides看起来是衔接的，用于无限循环切换。loop模式在与free模式同用时会产生抖动，因为free模式下没有复制slide的时间点
             /*
             * loop模式下会在slides前后复制若干个slide,，前后复制的个数不会大于原总个数。
@@ -227,14 +234,18 @@
             * 例：取值为1，0,1,2 --> 1,2,0,1,2,0,1
             * 例：取值为2或以上，0,1,2 --> 0,1,2,0,1,2,0,1,2
             * */
+            /*
             loopAdditionalSlides: 0,
+            */
             loopedSlides: null,     // 在loop模式下使用slidesPerview:'auto',还需使用该参数设置所要用到的loop个数
 
 
 
             // Control (双向控制)
+            /*
             control: undefined,     // 设置为另外一个Slip实例开始控制该Slip
             controlInverse: false,  // 设置为true时控制方向倒转
+            */
             /*
             * 设定Slip相互控制时的控制方式。当两个slip的slide数量不一致时可用。
             *  默认为'slide'，自身切换一个slide时，被控制方也切换一个slide。
@@ -243,14 +254,17 @@
             *  设定'slide',slip1的1,2,3,4对应控制的slip2为1,2,3,7。
             *  设定controlBy:'container',slip1的1,2,3,4对应控制的slip2为1,3,5,7。
             * */
+            /*
             controlBy: 'slide',
+            */
 
 
 
             // Observer (监视器)
             observer: false,        // 启动动态检查器，当改变slip的样式（例如隐藏/显示）或者修改slip的子元素时，自动初始化slip。默认false，不开启，可以使用update()方法更新
+            /*
             observeParents: false,  // 将observe应用于Slip的父元素。当Slip的父元素变化时，例如window.resize，Slip更新
-
+            */
 
 
             // wrapper class 名字 命名空间
