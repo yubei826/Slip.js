@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Slip demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <!-- Link Slip's CSS -->
+    <link rel="stylesheet" href="css/slip.css">
+
+    <!-- Demo styles -->
+    <style type="text/css">
+        .slip-container {
+            width: 500px;
+            height: 300px;
+            margin: 20px auto;
+        }
+        .slip-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Slip -->
+    <div class="slip-container">
+        <div class="slip-wrapper">
+            <div class="slip-slide">Slide 1</div>
+            <div class="slip-slide">Slide 2</div>
+            <div class="slip-slide">Slide 3</div>
+            <div class="slip-slide">Slide 4</div>
+            <div class="slip-slide">Slide 5</div>
+            <div class="slip-slide">Slide 6</div>
+            <div class="slip-slide">Slide 7</div>
+            <div class="slip-slide">Slide 8</div>
+            <div class="slip-slide">Slide 9</div>
+            <div class="slip-slide">Slide 10</div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="slip-pagination"></div>
+    </div>
+
+    <!-- Slip JS -->
+    <script src="../build/Slip.min.js"></script>
+
+    <!-- Initialize Slip -->
+    <script>
+    var slip = new Slip('.slip-container', {
+        direction: 'horizontal',
+        pagination: '.slip-pagination',
+        paginationClickable: true,
+        spaceBetween: 30
+    });
+    </script>
+</body>
+</html>

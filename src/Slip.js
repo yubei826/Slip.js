@@ -432,7 +432,7 @@
 
         // 分屏器
         if(s.params.pagination){
-            ss.paginationContainer = $(s.params.pagination);
+            s.paginationContainer = $(s.params.pagination);
             if(s.params.paginationClickable){
                 s.paginationContainer.addClass('slip-pagination-clickable');
             }

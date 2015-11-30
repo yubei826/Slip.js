@@ -1,0 +1,84 @@
+
+html, body {
+    position: relative;
+    height: 100%;
+}
+
+body {
+  background: #eee;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color:#000;
+  margin: 0;
+  padding: 0;
+}
+
+.slip-container{
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.slip-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    -ms-transition-property: -ms-transform;
+    transition-property: transform;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+
+.slip-slide{
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slip-pagination {
+    position: absolute;
+    text-align: center;
+    transform: translate3d(0px, 0px, 0px);
+    transition: all 0.3s ease 0s;
+    z-index: 10;
+}
+
+.slip-container-horizontal > .slip-pagination {
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+}
+
+.slip-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 100%;
+    background: #000;
+    opacity: .2;
+}
+
+.slip-pagination-bullet-active {
+    background: #007aff none repeat scroll 0 0;
+    opacity: 1;
+}
+
+.slip-container-horizontal > .slip-pagination .slip-pagination-bullet {
+    margin: 0 5px;
+}
+.slip-pagination-clickable .slip-pagination-bullet {
+    cursor: pointer;
+}
