@@ -2546,8 +2546,8 @@
     /*===========================
      Slip window or AMD Export
      ===========================*/
-    if(typeof define === 'function' && define.amd){
-        return define('lib/slip.js', function(require, exports, module){
+    if(typeof define === 'function'/* && define.amd*/){
+        return define(/*'lib/slip.js', */function(require, exports, module){
             return Slip;
         });
     }else{
